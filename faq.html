@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>よくある質問 | ソレイユ航空</title>
+<style>
+:root {
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+  --alert-bg: #222;
+  --accent: #f9b234;
+  --accent-dark: #f08c00;
+  --text-dark: #222;
+  --text-light: #555;
+  --bg-light: #fffaf3;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 16px;
+  --transition: all 0.3s ease;
+  font-family: "Noto Sans JP", "メイリオ", sans-serif;
+}
+
+body {
+  font-family: "メイリオ", Meiryo, sans-serif;
+  margin: 0;
+  background: #222;
+  color: #FF9933;
+  overflow-x: hidden;
+}
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  background: linear-gradient(to right, #111, #222);
+  text-align: center;
+  padding: 80px 20px 60px;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  color: var(--primary);
+}
+
+.hero p {
+  color: #ccc;
+  font-size: 1.1rem;
+}
+
+/* ===== FAQ Section ===== */
+.faq-container {
+  width: 900px;
+  margin: 60px auto;
+  padding: 0 6%;
+
+}
+
+.faq-item {
+  background: var(--bg-light);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.4);
+}
+
+.faq-question {
+  background: #111;
+  color: var(--bg-light);
+  padding: 18px 24px;
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+  transition: background 0.3s ease;
+  width: 900;
+}
+
+.faq-question:hover {
+  background: #1a1a1a;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  background: #1b1b1b;
+  color: #ddd;
+  transition: max-height 0.5s ease;
+  padding: 0 24px;
+}
+
+.faq-answer.open {
+  padding: 18px 24px;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 400px;
+}
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="soleil.html">Soleil Air　　</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+        <li><a href="domestic.html">就航地</a></li>
+        <li><a href="fleet.html">機材紹介</a></li>
+        <li><a href="aboutcompany.html">会社概要</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>よくある質問</h1>
+  <p>お客様から寄せられるご質問にお答えします。</p>
+</section>
+
+<section class="faq-container">
+
+  <div class="faq-item">
+    <div class="faq-question">Skylinkシステムとは何ですか？</div>
+    <div class="faq-answer">
+      Skylinkは、気象・空域データを解析し最適な航路を自動提案するAIシステムです。<br>
+      操縦士を補助し、ヒューマンエラーを防止する目的で導入されました。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">オリオン900型機とはどのような機体ですか？</div>
+    <div class="faq-answer">
+      アストレオン社製の次世代機であり、AI航法システム「Skylink」を搭載した最新鋭の機体です。<br>
+      燃費性能・安全性・快適性を兼ね備え、環境負荷の少ない運航を実現しています。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">オリオン900型機の事故後も、AI航法システム「Skylink」の使用を継続するのですか？</div>
+    <div class="faq-answer">
+      はい、継続いたします。弊社の詳細な調査（国土交通省との合同調査を含む）により、Skylinkシステム自体に設計上の問題がないことが確認されています。AI技術の優位性は揺るぎません。人為的なミスを排除するという弊社の理念に基づき、むしろAIによる制御をさらに強化していく所存です。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">SkylinkのようなAIシステムは、緊急時にパイロットの介入を拒否するリスクはないのですか？。</div>
+    <div class="faq-answer">
+      Skylinkは、パイロットによるマニュアル操作を完全に排除しているわけではありません。しかし、システムの判断が人間の判断より優位であると推定される場合、過度な介入を制限するための安全閾値を設定しています。今回の事故は、この閾値を超えた不適切な手動操作の結果であり、AIがパイロットの誤操作を防げなかったことが問題の本質ではありません。
+    
+    </div>
+  </div>
+  
+  <div class="faq-item">
+    <div class="faq-question">安全性についてどのような取り組みをしていますか？</div>
+    <div class="faq-answer">
+      ソレイユ航空では、運航監査室を新設し、全ての運航データをAIと人間の双方で監査しています。<br>
+      また、定期的に安全教育・訓練を実施し、安全文化の浸透を徹底しています。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">機内で利用できるサービスを教えてください。</div>
+    <div class="faq-answer">
+      機内では無料Wi-Fiサービスをはじめ、ソレイユシネマ（機内エンターテインメント）、
+      国産食材を使用した機内食などをご用意しております。<br>
+      詳しくは「機内サービス」ページをご覧ください。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">液体物の持ち込み制限は？</div>
+    <div class="faq-answer">
+      国際線の場合、100ml以下の容器に入れ、1リットル以下のジッパー付き透明プラスチック袋に収める必要があります。医薬品やベビーフードなどは例外規定があります。
+      <br>詳しくは「手荷物案内」ページをご覧ください。
+    </div>
+  </div>
+
+    <div class="faq-item">
+    <div class="faq-question">いつまでに空港でチェックインを済ませる必要がありますか？</div>
+    <div class="faq-answer">
+      国際線は出発時刻の2～3時間前まで、国内線は30分～1時間前までを推奨しております。オンラインチェックインが利用可能です。
+      <br>繁忙期はさらに早めの到着をお勧めします。
+    </div>
+  </div>
+
+    <div class="faq-item">
+    <div class="faq-question">フライトが遅延・欠航した場合の対応は？</div>
+    <div class="faq-answer">
+      フライトの遅延・欠航が発生した場合、速やかにお客様に通知し、代替便の手配や払い戻しなどの対応を行います。
+      <br>詳細は「運航状況」ページをご覧ください。
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question">会社の所在地を教えてください。</div>
+    <div class="faq-answer">
+      本社所在地：東京都大田区羽田空港3丁目（東京国際空港内）<br>
+      ハブ空港：東京国際空港（羽田空港）
+    </div>
+  </div>
+
+  
+  
+
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+<script>
+const questions = document.querySelectorAll(".faq-question");
+
+questions.forEach(q => {
+  q.addEventListener("click", () => {
+    const item = q.parentElement;
+    item.classList.toggle("active");
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>さくら航空との提携交渉開始 | Soleil Air</title>
+
+<style>
+:root {
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+}
+
+body {
+  font-family: "メイリオ", Meiryo, sans-serif;
+  margin: 0;
+  color:#FFF;
+  background-color: #000;
+  overflow-x: hidden;
+}
+
+main{
+  height: window-height;
+  width: window-width;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Gemini_Generated_Image_qxspt6qxspt6qxsp.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== セクション ===== */
+.sakura-section {
+  padding: 50px 6%;
+  max-width: 1200px;
+  margin: 60px auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-x: scroll;
+  scrollbar-width: none; 
+  white-space: nowrap;
+}
+.sakura-section h2 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+.sakura-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.sakura-section strong {
+  color: var(--primary);
+}
+
+
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Back to Home Button ===== */
+.back-home {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  color: var(--text-light);
+  background: linear-gradient(135deg, var(--primary), var(--dark));
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  animation: fadeUp 1s ease forwards;
+  margin-bottom: 50px;
+  margin-left: 20px;
+}
+
+.back-home:hover {
+  box-shadow: 0 6px 25px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, var(--dark), var(--primary));
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="soleil.html">Soleil Air　　</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+        <li><a href="domestic.html">就航地</a></li>
+        <li><a href="fleet.html">機材紹介</a></li>
+        <li><a href="aboutcompany.html">会社概要</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="sakura-section">
+    <h2>新機材オリオン900型機の導入決定と契約締結について</h2>
+    <div class="date">掲載日: 20XX年XX月XX日</div>
+
+    <p>
+      弊社は、中長距離路線における燃費効率と運航効率を飛躍的に向上させるため、アストレオン社製の次世代機オリオン900型機の導入契約を締結いたしました。
+    </p>
+
+    <p>
+      本機は、Skylink 2.0を搭載しており、弊社が掲げるAIによる完全自動運航の実現に向けた主要な基幹機材となります。
+    </p>
+<br>
+
+    <p>
+      特筆すべきは、弊社購買部門と<strong>黒崎取締役副社長による徹底したコスト交渉の結果</strong>、当初の市場予測価格と比較して、20%以上の大幅なコスト削減を実現したことです。この契約は、弊社のコストカット至上主義を体現するものです。
+    </p>
+
+    <p>
+        これにより、弊社は競合他社に対し、圧倒的な運航コスト優位性を確立します。
+    </p>
+  </section>
+  <div style="text-align:left;">
+      <a href="news.html" class="back-home">ニュース一覧に戻る</a>
+    </div>
+</main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soleil Air - 役員名簿</title>
+    <style>
+        /* CSSカスタムプロパティ (chat.html/portal.htmlと共通) */
+        :root {
+            --primary: #FF9933;
+            --dark: #CC7A26;
+            --bg-dark: #222;
+            --bg-card: #2c2c2c;
+            --text-on-dark: #e0e0e0;
+            --text-muted: #999;
+            --border-color: #444;
+            --radius: 4px;
+            --shadow: rgba(0, 0, 0, 0.4); 
+            --transition: all 0.2s ease-out;
+            font-family: "Noto Sans JP", "メイリオ", sans-serif;
+        }
+
+        /* リセットと基本スタイル (共通) */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-on-dark);
+            line-height: 1.6;
+            padding-top: 60px; 
+        }
+
+        a {
+            color: var(--text-on-dark);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ヘッダー (共通) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-dark);
+            border-bottom: 2px solid var(--primary);
+            padding: 0 40px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .nav {
+            display: flex;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+    .nav a {
+        color: var(--text-on-dark);
+        text-transform: uppercase;
+        font-size: 0.9em;
+        font-weight: 500;
+        margin-left: 30px;
+        padding: 0 5px 5px;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+        border-bottom: 3px solid transparent; /* ホバー時と同じ太さで透明に設定 */
+    }
+
+    .nav a:hover {
+        color: #fff;
+        border-bottom-color: var(--primary);
+    }
+
+
+        /* --- 役員名簿固有のスタイル --- */
+        
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding-top: 20px;
+        }
+
+        .member-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: 0 6px 15px var(--shadow);
+            transition: transform var(--transition);
+            overflow: hidden;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .member-photo {
+            width: 80px;
+            height: 80px;
+            background-color: var(--dark);
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #fff;
+            flex-shrink: 0;
+            border: 3px solid var(--primary);
+        }
+
+        .member-info h2 {
+            font-size: 1.5em;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .member-info p {
+            font-size: 0.9em;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .member-details {
+            font-size: 0.9em;
+        }
+
+        .member-details h3 {
+            font-size: 1em;
+            color: var(--text-on-dark);
+            margin-top: 15px;
+            margin-bottom: 5px;
+            padding-left: 10px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .member-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .member-details li {
+            padding: 3px 0;
+            color: var(--text-muted);
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-on-dark);
+            margin-right: 5px;
+        }
+        
+        /* 連絡先セクション */
+        .contact-info {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+        }
+        
+        .contact-info p {
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+ <header class="header">
+    <h1>SOLEIL EXECUTIVE PORTAL</h1>
+    <nav class="nav">
+        <a href="name-list.html">役員名簿</a>
+        <a href="chat.html">社内チャット</a> 
+        <a href="soleil-portal.html" class="active">社内掲示板</a>
+        
+    </nav>
+</header>
+
+    <div class="container">
+        
+        <h1 style="color: #fff; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 30px;">
+            役員名簿 (Executive Board)
+        </h1>
+
+        <div class="member-grid">
+
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">永</div>
+            <div class="member-info">
+                <h2>永田 隆之</h2>
+                <p>代表取締役 社長 CEO</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 東京大学 工学部 航空宇宙工学科</li>
+                <li><span class="detail-label">最終職歴:</span> 国土交通省航空局航空局長</li>
+                <li><span class="detail-label">Soleil Air:</span> 2020年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>航空インフラ戦略、航空行政、危機管理、経営管理</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8801</p>
+            <p><span class="detail-label">メール:</span> nagata.t@soleilair.com</p>
+        </div>
+    </div>
+
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">黒</div>
+            <div class="member-info">
+                <h2>黒崎 剛</h2>
+                <p>取締役 副社長 CFO</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 神戸大学 経営学部</li>
+                <li><span class="detail-label">最終職歴:</span> さくら航空 専務取締役 CFO</li>
+                <li><span class="detail-label">Soleil Air:</span> 2023年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>国際会計基準(IFRS)、資金調達、リスクファイナンス</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8810</p>
+            <p><span class="detail-label">メール:</span> tanaka.s@soleilair.com</p>
+        </div>
+    </div>
+    
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">中</div>
+            <div class="member-info">
+                <h2>中山 遥瑛</h2>
+                <p>専務取締役 CMO</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span>Harvard Buisiness School</li>
+                <li><span class="detail-label">最終職歴:</span>合同会社ユー・エス・ジェーマーケティング本部長</li>
+                <li><span class="detail-label">Soleil Air:</span> 2018年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>マーケティング、需要予測</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8825</p>
+            <p><span class="detail-label">メール:</span> suzuki.k@soleilair.com</p>
+        </div>
+    </div>
+
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">増</div>
+            <div class="member-info">
+                <h2>増井 晴仁</h2>
+                <p>常務取締役 COO</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 早稲田大学 国際教養学部</li>
+                <li><span class="detail-label">最終職歴:</span> ANAにて国際線運航本部長</li>
+                <li><span class="detail-label">Soleil Air:</span> 2020年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>路線開発、顧客ロイヤリティ、デジタルマーケティング</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8830</p>
+            <p><span class="detail-label">メール:</span> yamamoto.d@soleilair.com</p>
+        </div>
+    </div>
+    
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">布</div>
+            <div class="member-info">
+                <h2>布川 喜助</h2>
+                <p>人事・総務部長</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 慶應義塾大学 法学部</li>
+                <li><span class="detail-label">最終職歴:</span> 総合商社 NYHA</li>
+                <li><span class="detail-label">Soleil Air:</span> 2019年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>労務管理、組織開発、報酬制度設計</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8840</p>
+            <p><span class="detail-label">メール:</span> sasaki.s@soleilair.com</p>
+        </div>
+    </div>
+
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">寺</div>
+            <div class="member-info">
+                <h2>寺田 啓介</h2>
+                <p>整備部長</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 九州大学 理学部</li>
+                <li><span class="detail-label">最終職歴:</span> ボーイング社 技術顧問</li>
+                <li><span class="detail-label">Soleil Air:</span> 2015年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>航空機整備、機体安全基準、MRO戦略</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8855</p>
+            <p><span class="detail-label">メール:</span> nakano.t@soleilair.com</p>
+        </div>
+    </div>
+
+        <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">山</div>
+            <div class="member-info">
+                <h2>山川 美月</h2>
+                <p>運航部長</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 九州大学 理学部</li>
+                <li><span class="detail-label">最終職歴:</span> ボーイング社 技術顧問</li>
+                <li><span class="detail-label">Soleil Air:</span> 2015年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>運航安全管理、パイロット育成、フライトシミュレーション</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8855</p>
+            <p><span class="detail-label">メール:</span> nakano.t@soleilair.com</p>
+        </div>
+    </div>
+
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">吉</div>
+            <div class="member-info">
+                <h2>吉岡 佳恋</h2>
+                <p>客室サービス部長</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 上智大学 外国語学部</li>
+                <li><span class="detail-label">最終職歴:</span> キャセイパシフィック航空 チーフパーサー</li>
+                <li><span class="detail-label">Soleil Air:</span> 設立メンバー</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>接客品質向上、緊急保安訓練、CA育成</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8860</p>
+            <p><span class="detail-label">メール:</span> yoshioka.y@soleilair.com</p>
+        </div>
+    </div>
+
+    <div class="member-card">
+        <div class="member-header">
+            <div class="member-photo">西</div>
+            <div class="member-info">
+                <h2>西田 美香</h2>
+                <p>IT部長</p>
+            </div>
+        </div>
+        <div class="member-details">
+            <h3>経歴</h3>
+            <ul>
+                <li><span class="detail-label">出身大学:</span> 京都大学 情報学科</li>
+                <li><span class="detail-label">最終職歴:</span> Google日本法人 エンジニアリングリード</li>
+                <li><span class="detail-label">Soleil Air:</span> 2024年入社</li>
+            </ul>
+            <h3>専門分野</h3>
+            <ul>
+                <li>クラウドインフラ、データ分析、サイバーセキュリティ</li>
+            </ul>
+        </div>
+        <div class="contact-info">
+            <p><span class="detail-label">内線:</span> 8877</p>
+            <p><span class="detail-label">メール:</span> hayashi.k@soleilair.com</p>
+        </div>
+    </div>
+
+</div>
+    </div>
+</body>
+</html>

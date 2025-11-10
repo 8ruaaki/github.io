@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ニュース一覧 | Soleil Air</title>
+<style>
+:root {
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+}
+
+body {
+  font-family: "メイリオ", Meiryo, sans-serif;
+  margin: 0;
+  background: #222;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== News Section ===== */
+.news-section::-webkit-scrollbar {
+  /* 描画を完全に停止 */
+  display: none;
+  /* 確保された領域を強制的にゼロにする */
+  width: 0; 
+  height: 0;
+}
+
+.news-section {
+  background: #222;
+  padding: 80px 10%;
+  text-align: center;
+  overflow-x: scroll;
+  scrollbar-width: none; 
+  /* white-space: nowrap; */
+}
+.news-section h2 {
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 50px;
+  border-bottom: 2px solid var(--primary);
+  display: inline-block;
+  padding-bottom: 10px;
+}
+.news-list {
+  width: 900px;
+  margin: 0 auto;
+  text-align: left;
+  
+}
+a {
+  /* リンクの装飾（下線）を非表示にする */
+  text-decoration: none; 
+  /* 文字色を親から継承させる (リンクの青色を防ぐため) */
+  color: inherit; 
+}
+
+/* <a>タグの子要素である.news-itemに適用されているデザインを維持 */
+.news-item {
+  /* 既存のCSSをそのまま使用 */
+  border-left: 5px solid var(--primary);
+  background: #f9f9f9;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+  width: 900px;
+  /* <a>タグがブロック要素として振る舞うための設定（念のため） */
+  display: block;
+}
+
+/* ホバー時のアニメーションは、引き続き.news-itemに適用します */
+a:hover .news-item { 
+  transform: translateY(-3px);
+}
+
+.news-item h3 {
+  margin: 0;
+  color: var(--dark);
+  text-decoration: none;
+}
+.news-item h3:hover {
+  color: var(--primary);
+}
+.news-item .date {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+.news-item p {
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.news-link {
+  margin-top: 40px;
+}
+
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Back to Home Button ===== */
+.back-home {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  color: var(--text-light);
+  background: linear-gradient(135deg, var(--primary), var(--dark));
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  animation: fadeUp 1s ease forwards;
+  margin-bottom: 50px;
+  margin-left: 20px;
+}
+
+.back-home:hover {
+  box-shadow: 0 6px 25px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, var(--dark), var(--primary));
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="soleil.html">Soleil Air　　</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+        <li><a href="domestic.html">就航地</a></li>
+        <li><a href="fleet.html">機材紹介</a></li>
+        <li><a href="aboutcompany.html">会社概要</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="news" class="news-section">
+  <h2>ニュース一覧</h2>
+  <div class="news-list">
+     <a href="sakura-minaoshi.html">
+     <div class="news-item">
+       <div class="date">20XX年XX月XX日</div>
+       <h3>さくら航空買収計画に関する見直し検討のお知らせ</h3>
+       <p>オリオン900型機墜落事故による株価の急落および経営環境の急変を受け、買収計画について、計画全体の見直しを進めることを発表しました。</p>
+     </div>
+   </a>
+
+    <a href="incident-report.html">
+     <div class="news-item">
+       <div class="date">20XX年XX月XX日</div>
+       <h3>オリオン900型機 事故に関する調査完了のお知らせ</h3>
+       <p>国土交通省との合同調査の結果、オリオン900型機の完全AI航法システム「Skylink」に欠陥は認められませんでした。</p>
+     </div>
+   </a>
+ 
+    <a href="sakura.html"> 
+     <div class="news-item">
+       <div class="date">20XX年XX月XX日</div>
+       <h3>さくら航空買収計画に関する重要なお知らせ</h3>
+       <p>株主総会での承認を経て、さくら航空の買収計画が正式に始動いたしました。国内シェア拡大に向けた大きな一歩となります。</p>
+     </div>
+    </a>
+
+    <a href="contraction.html">
+     <div class="news-item">
+       <div class="date">20XX年XX月XX日</div>
+       <h3>新機材オリオン900型機の導入決定と契約締結について</h3>
+       <p>アストレオン社とオリオン900型機の導入契約を締結いたしました。徹底的なコスト交渉により、従来予測より大幅に安価での導入が実現いたしました。</p>
+     </div>
+    </a>
+
+    <a href="asia.html">
+     <div class="news-item">
+       <div class="date">20XX年XX月XX日</div>
+       <h3>新興アジア路線拡大に向けた投資戦略を発表</h3>
+       <p>東南アジア路線を中心とした国際線ネットワーク強化の計画と、そのための資金調達の成功を発表しました。</p>
+     </div>
+   </a>
+
+   <a href="ai-strategy-meeting.html">
+     <div class="news-item">
+       <div class="date">20XX年XX月XX日</div>
+       <h3>社内AI戦略会議開催：「人件費効率化」を重点目標に掲げる</h3>
+       <p>永田社長主導でAI戦略会議が開かれ、「AIによる運航システムの高度化が、長期的な人件費・教育費の削減に不可欠」であるという決定がなされました。</p>
+     </div>
+   </a>
+
+   <a href="renewal.html">
+     <div class="news-item">
+       <div class="date">20XX年XX月XX日</div>
+       <h3>ウェブサイトおよびモバイルアプリの全面リニューアルのお知らせ</h3>
+       <p>ユーザー体験向上のため、デジタルプラットフォームを一斉リニューアルいたしました。</p>
+     </div>
+   </a>
+
+  </div>
+ </section>
+    <div style="text-align:left;">
+      <a href="soleil.html" class="back-home">トップページに戻る</a>
+    </div>
+</main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+</body>
+</html>

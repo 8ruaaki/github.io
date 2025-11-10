@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>機材紹介 | ソレイユ航空</title>
+<style>
+
+:root {
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+  --alert-bg: #222;
+  --accent: #f9b234;
+  --accent-dark: #f08c00;
+  --text-dark: #222;
+  --text-light: #555;
+  --bg-light: #fffaf3;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 16px;
+  --transition: all 0.3s ease;
+  
+}
+
+body {
+  font-family: "メイリオ", Meiryo, sans-serif;
+  margin: 0;
+  background: #222;
+  color: #FF9933;
+  overflow-x: hidden;
+}
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== Hero Section ===== */
+.main-visual {
+  background: url('Gemini_Generated_Image_mlty58mlty58mlty.png') center/cover no-repeat;
+  height: 300px;
+  display: flex;
+  margin-top: 0;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+.main-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) both;
+  /* white-space: nowrap; */
+  
+}
+.hero-content > * {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) forwards;
+}
+.hero-content .date { 
+  font-size: 1.4rem; 
+  color: var(--light);
+  animation-delay: 0.1s;
+}
+.hero-content h1 {
+  font-size: 4.8rem;
+  color: #fff;
+  font-weight: 900;
+  margin: 10px 0;
+  text-shadow: 0 3px 20px rgba(0,0,0,0.6);
+  animation-delay: 0.3s;
+}
+.hero-content .tagline {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  animation-delay: 0.5s;
+  color: #fff;
+}
+.hero-content .merger-message {
+  margin-top: 25px;
+  background: rgba(255,255,255,0.15);
+  padding: 15px 25px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  animation-delay: 0.7s;
+}
+.hero-content .merger-message strong { color: var(--light); }
+
+/* ====== Fleet Section ====== */
+section {
+  /* max-width: 1100px; */
+  margin: 60px auto;
+  /* padding: 0 0; */
+}
+
+section h2 {
+  font-size: 1.8rem;
+  border-left: 6px solid var(--accent);
+  padding-left: 15px;
+  margin-bottom: 40px;
+}
+
+/* ====== Fleet Cards ====== */
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.fleet-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  width: 380px;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.fleet-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.fleet-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.fleet-card-content {
+  padding: 20px 25px 30px;
+}
+
+.fleet-card h3 {
+  font-size: 1.3rem;
+  color: var(--accent-dark);
+  margin-bottom: 10px;
+}
+
+.fleet-card p {
+  color: var(--text-light);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* ====== Orion Section ====== */
+.orion-section {
+  background: #222;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow);
+  padding: 40px;
+  margin-top: 80px;
+  color: #FFF;
+}
+
+.orion-section h2 {
+  color: var(--accent-dark);
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.orion-section p {
+  line-height: 1.8;
+  color: #FFF;
+  margin-bottom: 25px;;
+}
+
+.orion-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  
+}
+
+
+
+.orion-images .imageofoutside{
+  background: url("Gemini_Generated_Image_wo8t6hwo8t6hwo8t.png");
+  background-size: 100%;
+  border-radius: 12px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 0.95rem;
+  background-repeat: no-repeat;
+  
+}
+
+.orion-images .seatmap{
+  background: url("3btljf5balu91.webp");
+  background-size: 100%;
+  border-radius: 12px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 0.95rem;
+  background-repeat: no-repeat;
+  
+}
+
+.orion-images .cockpit{
+  background: url("Gemini_Generated_Image_jaiu0ijaiu0ijaiu.png");
+  background-size: 100%;
+  border-radius: 12px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 0.95rem;
+  background-repeat: no-repeat;
+  
+  
+}
+
+/* ====== Message Box ====== */
+.message::-webkit-scrollbar {
+  /* 描画を完全に停止 */
+  display: none;
+  /* 確保された領域を強制的にゼロにする */
+  width: 0; 
+  height: 0;
+}
+.message {
+  /* スクロールバーの幅を「なし」に設定 */
+  scrollbar-width: none; 
+}
+.message {
+  background: #222;
+  border-left: 5px solid var(--accent-dark);
+  border-radius: var(--radius);
+  padding: 25px 30px;
+  margin-top: 60px;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #fff;
+  width: 900px;
+  overflow-x: scroll;
+  /* white-space: nowrap; */
+}
+.message strong {
+  color: var(--accent-dark);
+}
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="soleil.html">Soleil Air　　</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+        <li><a href="domestic.html">就航地</a></li>
+        <li><a href="fleet.html">機材紹介</a></li>
+        <li><a href="aboutcompany.html">会社概要</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ===== Hero Section ===== -->
+<!-- ヒーローセクション -->
+<section class="main-visual">
+  <div class="hero-content">
+    <h1>機材紹介</h1>
+    <p class="tagline">最新鋭の技術が、皆様の空の旅を支える。</p>
+  </div>
+ 
+</section>
+
+<!-- ===== Fleet Section ===== -->
+<section>
+  <h2>運航機材ラインナップ</h2>
+  <div class="fleet-grid">
+    <div class="fleet-card">
+      <img src="Gemini_Generated_Image_pzv5f8pzv5f8pzv5.png" alt="orion-800">
+      <div class="fleet-card-content">
+        <h3>Astoreon Orion-800</h3>
+        <p>ソレイユ航空の国際線を担う主力機。オリオン800型機は、747型機の風格と推進力に、787型機に匹敵する驚異的な低燃費性能と高湿度キャビンによる快適性を融合させた、次世代の4発機です。新開発のAP-Xオートパイロットシステムを搭載し、揺れを劇的に抑えた極めて安定した空の旅と、最高水準の安全を提供します。</p>
+      </div>
+    </div>
+
+    <div class="fleet-card">
+      <img src="Gemini_Generated_Image_5y3iyq5y3iyq5y3i.png" alt="orion-700">
+      <div class="fleet-card-content">
+        <h3>Astoreon Orion-700</h3>
+        <p>信頼性の高い3発機構造と、高頻度運航に適した高い経済効率を両立させた、当社の基幹単通路機です。その俊敏な機動性と離着陸性能は、国内線や韓国・東南アジア路線などで幅広く活躍しています。短いフライトでも快適に過ごせる空間設計と、安定した運航性能で、地域間の移動を確かなものにする当社の「空の特急」です。</p>
+      </div>
+    </div>
+
+    <div class="fleet-card">
+      <img src="Gemini_Generated_Image_jzag42jzag42jzag.png" alt="orion-600">
+      <div class="fleet-card-content">
+        <h3>Astoreon Orion-600</h3>
+        <p>中型ワイドボディ機としての最適なサイズと双発エンジンの高い効率性を兼ね備えた、汎用性の高い主力機です。長距離国際線と国内主要幹線で活躍し、柔軟な運用を可能にします。複通路ならではのゆとりある機内と、静粛性の高い設計により、長時間のフライトでもお客様に快適さとリラックスした時間を提供します。</p>
+      </div>
+    </div>
+
+    <div class="fleet-card">
+      <img src="Gemini_Generated_Image_498rf8498rf8498r.png" alt="orion-190 neo">
+      <div class="fleet-card-content">
+        <h3>【近日引退】Astoreon orion-190 neo</h3>
+        <p>優れた運航の柔軟性を持つ小型リージョナルジェットです。先進的なneoエンジンにより、これまで採算が難しかった短距離の地方路線において、高い経済効率と安定したサービスを提供し、地域間ネットワーク維持に大きく貢献しました。この度、その輝かしい功績を称え、間もなく惜しまれながらも現役を引退します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Orion Section ===== -->
+<section class="orion-section">
+  <h2>導入予定：オリオン900型機</h2>
+  <p>
+    オリオン900型機は、アストレオン社とソレイユ航空がSkylink 2.0の能力を最大限に引き出すため共同開発した、事実上のSkylink専用機です。機体設計の初期段階から完全AI運航を前提としており、従来の航空機で必要とされた冗長な手動制御機構を極限まで排除。これにより、圧倒的な燃費効率と軽量化を実現しました。当社の「人為的ミスゼロ」と「運航コストの大幅削減」を両立させる、未来の運航体制の象徴です。
+  </p>
+
+  <div class="orion-images">
+    <div class="imageofoutside"></div>
+    <div class="seatmap"></div>
+    <div class="cockpit"></div>
+  </div>
+
+  <div class="message">
+    <strong>Skylinkシステムとは：</strong><br>
+    Skylinkは、東雲ダイナミクスが独自開発し、全機材に搭載するAI航法システムです。フライトプランの作成から離着陸に至るまで、飛行の全工程をAIが最適化・制御。人間の判断ミスや疲労によるヒューマンエラーをゼロにし、運航の安全性と定時性を極限まで高めます。特にオリオン900型機に搭載された「Skylink 2.0」は、機体と完全に統合されており、運航コストを大幅に削減する、当社の経営戦略の中核を担うシステムです。
+    <br><a href="Skylink.html" style="color: #ff9933;">→詳細はこちら</a>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+</body>
+</html>

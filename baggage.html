@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手荷物案内 | ソレイユ航空</title>
+<style>
+:root {
+  --accent: #f9b234;
+  --accent-dark: #f08c00;
+  --bg-light: #fffaf3;
+  --text-dark: #222;
+  --text-light: #555;
+  --radius: 16px;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+  font-family: "Noto Sans JP", "メイリオ", sans-serif;
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+  --alert-bg: #222;
+}
+body {
+  margin: 0;
+  
+  color: var(--text-dark);
+  font-family: "メイリオ", Meiryo, sans-serif;
+  background: #222;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== Hero Section ===== */
+.main-visual {
+  background: url('Gemini_Generated_Image_30vvf830vvf830vv.png') center/cover no-repeat;
+  height: 300px;
+  display: flex;
+  margin-top: 0;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+.main-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) both;
+  white-space: nowrap;
+  
+}
+.hero-content > * {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) forwards;
+}
+.hero-content .date { 
+  font-size: 1.4rem; 
+  color: var(--light);
+  animation-delay: 0.1s;
+}
+.hero-content h1 {
+  font-size: 4.8rem;
+  font-weight: 900;
+  margin: 10px 0;
+  text-shadow: 0 3px 20px rgba(0,0,0,0.6);
+  animation-delay: 0.3s;
+}
+.hero-content .tagline {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  animation-delay: 0.5s;
+  color: #fff;
+}
+.hero-content .merger-message {
+  margin-top: 25px;
+  background: rgba(255,255,255,0.15);
+  padding: 15px 25px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  animation-delay: 0.7s;
+}
+.hero-content .merger-message strong { color: var(--light); }
+
+
+/* --- Section --- */
+.section {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 0 5%;
+}
+.section h2 {
+  color: var(--accent-dark);
+  border-left: 5px solid var(--accent);
+  padding-left: 10px;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+.section p {
+  line-height: 1.8;
+  color: var(--text-light);
+}
+
+/* --- Table --- */
+.table-box {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  box-shadow: 0 4px 10px var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: var(--text-dark);
+}
+th, td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+th {
+  background: var(--accent);
+  color: #fff;
+}
+tr:last-child td { border-bottom: none; }
+
+/* --- Image Placeholder --- */
+.photo {
+  width: 700px;
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px var(--shadow);
+  margin-top: 20px;
+}
+
+.photo1 {
+  width: 700px;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px var(--shadow);
+  margin-top: 20px;
+}
+/* --- FAQ --- */
+.faq-item {
+  background: #fff;
+  padding: 18px 22px;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px var(--shadow);
+  margin-bottom: 15px;
+}
+.faq-item h3 {
+  color: var(--accent-dark);
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.faq-item p {
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+  <header>
+   <div class="nav-container">
+     <div class="logo">
+       <a href="soleil.html">Soleil Air　　</a>
+     </div>
+     <nav>
+       <ul>
+         <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+         <li><a href="domestic.html">就航地</a></li>
+         <li><a href="fleet.html">機材紹介</a></li>
+         <li><a href="aboutcompany.html">会社概要</a></li>
+       </ul>
+    </nav>
+   </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+<!-- ヒーローセクション -->
+<section class="main-visual">
+  <div class="hero-content">
+    <h1>手荷物案内</h1>
+    <p class="tagline">安全で快適な空の旅のために、手荷物のルールをご確認ください。</p>
+  </div>
+ 
+</section>
+
+<section class="section">
+  <h2>機内持ち込み手荷物</h2>
+  <p>
+    お一人様につき、身の回り品1点と手荷物1点を機内にお持ち込みいただけます。<br>
+    サイズ・重量を超えるお荷物はお預けください。
+  </p>
+  <div class="table-box">
+    <table>
+      <tr><th>区分</th><th>サイズ（3辺合計）</th><th>重量</th></tr>
+      <tr><td>国内線</td><td>100cm以内（45×35×20cm目安）</td><td>10kgまで</td></tr>
+      <tr><td>国際線</td><td>115cm以内（55×40×25cm目安）</td><td>12kgまで</td></tr>
+    </table>
+  </div>
+  <!-- <div class="photo" style="background-image:url('img_02.webp');"></div> -->
+</section>
+
+<section class="section">
+  <h2>お預け手荷物（受託手荷物）</h2>
+  <p>
+    ご搭乗クラスや路線により無料でお預けいただける荷物の上限が異なります。<br>
+    超過分については別途料金がかかります。
+  </p>
+  <div class="table-box">
+    <table>
+      <tr><th>クラス</th><th>無料許容量</th><th>超過料金</th></tr>
+      <tr><td>エコノミー</td><td>20kgまで</td><td>¥1,500 / kg</td></tr>
+      <tr><td>ビジネス</td><td>30kgまで</td><td>¥1,000 / kg</td></tr>
+      <tr><td>ファースト</td><td>40kgまで</td><td>無料（1個追加可）</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <h2>持ち込み・お預けできない物</h2>
+  <p>
+    安全上の理由から、以下の物品は機内への持ち込みやお預けができません。
+  </p>
+  <ul>
+    <li>爆発物・発火性物質（花火、ライター用ガスなど）</li>
+    <li>可燃性液体（ペイント、燃料など）</li>
+    <li>強力な磁気を発するもの、腐食性物質</li>
+    <li>スプレー缶（制汗剤など）は100ml以下のみ持ち込み可</li>
+    <li>刃物類（ナイフ、はさみなど）はお預けください</li>
+    <li>その他、航空法で禁止されている物品</li>
+    <div class="photo1" style="background-image:url('tenimotsucyuui.gif');"></div>
+  </ul>
+  
+</section>
+
+<section class="section">
+  <h2>よくあるご質問</h2>
+
+  <div class="faq-item">
+    <h3>Q. ペットは機内に持ち込めますか？</h3>
+    <p>A. 小型のペットは、専用ケースに入れた状態で機内にお持ち込みいただけます（別途申請が必要です）。</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Q. スポーツ用品は預けられますか？</h3>
+    <p>A. ゴルフバッグやスキー用品などは大型手荷物としてお預けいただけます（追加料金が発生します）。</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Q. 貴重品はどうすればいいですか？</h3>
+    <p>A. 貴重品や壊れやすいものは、必ず機内へお持ち込みください。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+</body>
+</html>

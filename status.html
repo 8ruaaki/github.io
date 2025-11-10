@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>運行状況 | ソレイユ航空</title>
+<style>
+:root {
+    --accent: #f9b234;
+    --accent-dark: #f08c00;
+    --bg-light: #fffaf3;
+    --text-dark: #222;
+    --radius: 16px;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+    font-family: "Noto Sans JP", "メイリオ", sans-serif;
+    --primary: #FF9933;
+    --dark: #CC7A26;
+    --light: #FFD699;
+    --text-light: #FFF;
+    --bg-gray: #f4f4f4;
+    --alert-bg: #222;
+}
+body {
+  margin: 0;
+  color: var(--text-light);
+  font-family: "メイリオ", Meiryo, sans-serif;
+  background: var(--alert-bg);
+  overflow-x: hidden;
+  line-height: 1.6;
+  padding: 0px;
+}
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+
+
+/* ===== Hero Section ===== */
+.main-visual {
+  background: url('Gemini_Generated_Image_emngq6emngq6emng.png') center/cover no-repeat;
+  height: 300px;
+  display: flex;
+  margin-top: 0;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+.main-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) both;
+  white-space: nowrap;
+  margin-top: 60px;
+  
+}
+.hero-content > * {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) forwards;
+}
+.hero-content .date { 
+  font-size: 1.4rem; 
+  color: var(--light);
+  animation-delay: 0.1s;
+}
+.hero-content h1 {
+  font-size: 4.8rem;
+  font-weight: 900;
+  margin: 10px 0;
+  text-shadow: 0 3px 20px rgba(0,0,0,0.6);
+  animation-delay: 0.3s;
+  color: #FFF;
+}
+.hero-content .tagline {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  animation-delay: 0.5s;
+  color: #fff;
+}
+.hero-content .merger-message {
+  margin-top: 25px;
+  background: rgba(255,255,255,0.15);
+  padding: 15px 25px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  animation-delay: 0.7s;
+}
+.hero-content .merger-message strong { color: var(--light); }
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--bg-dark);
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px var(--shadow);
+  }
+
+  h1 {
+    color: var(--dark);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 10px;
+  }
+
+  /* 検索セクション */
+  .search-section {
+    background-color: var(--bg-dark);
+    padding: 20px;
+    border-radius: var(--radius);
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .search-section label {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--dark);
+    margin-right: 15px;
+  }
+
+  .search-section input[type="number"] {
+    padding: 10px;
+    border: 2px solid var(--light);
+    border-radius: 8px;
+    font-size: 1em;
+    width: 150px;
+    margin-right: 10px;
+  }
+
+  .search-section button {
+    background-color: var(--primary);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: var(--transition);
+  }
+
+  .search-section button:hover {
+    background-color: var(--dark);
+  }
+
+  /* 検索結果 */
+  #search-result {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--light);
+    border-radius: var(--radius);
+    min-height: 100px;
+  }
+
+  #search-result table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  #search-result th, #search-result td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+  }
+
+  #search-result th {
+    background-color: var(--light);
+    color: var(--text-dark);
+    font-weight: bold;
+  }
+
+  .status-ontime {
+    color: green;
+    font-weight: bold;
+  }
+
+  .status-delayed {
+    color: var(--accent); /* オレンジ系 */
+    font-weight: bold;
+    /* animation: flash 1s infinite alternate; */
+  }
+
+  .status-cancelled {
+    color: red;
+    font-weight: bold;
+    background-color: #222;
+  }
+
+  @keyframes flash {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.7;
+    }
+  }
+
+  /* 遅延・欠航一覧 */
+  h2 {
+    color: var(--dark);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--primary);
+    padding-left: 10px;
+  }
+
+  .alert-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+
+  .alert-table th, .alert-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+
+  .alert-table th {
+    background-color: var(--dark);
+    color: var(--text-light);
+    font-weight: bold;
+  }
+
+  .alert-table tr:nth-child(even) {
+    background-color: #222;
+  }
+
+  .alert-table .status-delayed {
+    color: var(--accent-dark);
+  }
+
+  .alert-table .status-cancelled {
+    color: red;
+  }
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+   <div class="nav-container">
+     <div class="logo">
+       <a href="soleil.html">Soleil Air　　</a>
+     </div>
+     <nav>
+       <ul>
+         <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+         <li><a href="domestic.html">就航地</a></li>
+         <li><a href="fleet.html">機材紹介</a></li>
+         <li><a href="aboutcompany.html">会社概要</a></li>
+       </ul>
+    </nav>
+   </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+<!-- ヒーローセクション -->
+<section class="main-visual">
+  <div class="hero-content">
+    <h1>運行状況</h1>
+    <p class="tagline">運行状況をご確認していただけます。</p>
+  </div>
+ 
+</section>
+
+<div class="container">
+    <h1>Soleil航空 運行状況</h1>
+
+    <div class="search-section">
+      <label for="flight-number">便名検索 (例: 101 のように数字のみ):</label>
+      <input type="number" id="flight-number" placeholder="便名を入力">
+      <button onclick="searchFlight()">検索</button>
+    </div>
+
+    <div id="search-result">
+      <h3>検索結果</h3>
+      <p id="search-message">便名の数字を入力し、「検索」ボタンを押してください。</p>
+      <table id="result-table" style="display: none;">
+        <thead>
+          <tr>
+            <th>便名</th>
+            <th>空港</th>
+            <th>定刻</th>
+            <th>状況</th>
+            <th>搭乗口</th>
+          </tr>
+        </thead>
+        <tbody id="result-body">
+          </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <h2>⚠️ 遅延・欠航便一覧 (本日)</h2>
+    <table class="alert-table">
+      <thead>
+        <tr>
+          <th>便名</th>
+          <th>区間</th>
+          <th>定刻</th>
+          <th>状況</th>
+          <th>原因</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="alert-delayed">
+          <td>SL103</td>
+          <td>東京(羽田) → 札幌(新千歳)</td>
+          <td>11:00</td>
+          <td class="status-delayed">遅延</td>
+          <td>機材繰りによる</td>
+        </tr>
+        <tr class="alert-cancelled">
+          <td>SL205</td>
+          <td>大阪(伊丹) → 福岡</td>
+          <td>14:30</td>
+          <td class="status-cancelled">欠航</td>
+          <td>強風のため</td>
+        </tr>
+        <tr class="alert-delayed">
+          <td>SL311</td>
+          <td>沖縄(那覇) → 東京(羽田)</td>
+          <td>16:45</td>
+          <td class="status-delayed">遅延</td>
+          <td>到着機遅れのため</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <script>
+    // 運行データ
+    // 運行データ：10から999までの便名データを動的に生成
+    const flightData = (function() {
+      const data = {};
+      const airports = [
+          '東京(羽田) → 大阪(伊丹)', '札幌(新千歳) → 東京(羽田)',
+          '大阪(伊丹) → 福岡', '沖縄(那覇) → 東京(羽田)',
+          '名古屋(中部) → 札幌(新千歳)', '福岡 → 仙台',
+          '東京(羽田) → 熊本', '広島 → 大阪(伊丹)'
+      ];
+
+      // 定刻をランダムに生成するヘルパー関数
+      function getRandomTime(i) {
+        const baseHour = (i % 16) + 6; // 6時から21時まで
+        const minute = (i % 2) === 0 ? '00' : '30';
+        return `${String(baseHour).padStart(2, '0')}:${minute}`;
+      }
+
+      // 搭乗口をランダムに生成するヘルパー関数
+      function getRandomGate(i) {
+        return String((i % 30) + 1); // 1から30番ゲート
+      }
+
+      for (let i = 10; i <= 999; i++) {
+        const flightNumber = String(i);
+        const flightId = `SL${String(i).padStart(3, '0')}`; // 0埋めしてSL010〜SL999
+        const airport = airports[i % airports.length];
+        const scheduled = getRandomTime(i);
+        let status = '定刻通り';
+        let finalGate = getRandomGate(i);
+
+        // 指定された特殊な状況を上書き
+        if (i === 103) {
+          status = '遅延';
+          finalGate = '10'; // 一覧と一致
+        } else if (i === 205) {
+          status = '欠航';
+          finalGate = '-'; // 一覧と一致
+        } else if (i === 311) {
+          status = '遅延';
+          finalGate = '8'; // 一覧と一致
+        }
+
+        data[flightNumber] = {
+          flight: flightId,
+          airport: airport,
+          scheduled: scheduled,
+          status: status,
+          gate: finalGate
+        };
+      }
+      return data;
+    })();
+
+    /**
+     * 便名検索を実行し、結果を表示する
+     */
+    function searchFlight() {
+      const input = document.getElementById('flight-number').value.trim();
+      const messageElement = document.getElementById('search-message');
+      const tableElement = document.getElementById('result-table');
+      const resultBody = document.getElementById('result-body');
+
+      // 初期状態をリセット
+      messageElement.style.display = 'block';
+      tableElement.style.display = 'none';
+      resultBody.innerHTML = '';
+      messageElement.textContent = '';
+
+      if (input === "") {
+        messageElement.textContent = '便名の数字を入力してください。';
+        return;
+      }
+
+      // 入力が数字のみかチェック
+      if (!/^\d+$/.test(input)) {
+        messageElement.textContent = '便名には数字のみを入力してください。';
+        return;
+      }
+
+      const flightInfo = flightData[input];
+
+      if (flightInfo) {
+        messageElement.style.display = 'none';
+        tableElement.style.display = 'table';
+
+        let statusClass = 'status-ontime';
+        if (flightInfo.status === '遅延') {
+          statusClass = 'status-delayed';
+        } else if (flightInfo.status === '欠航') {
+          statusClass = 'status-cancelled';
+        }
+
+        const row = `
+          <tr>
+            <td>${flightInfo.flight}</td>
+            <td>${flightInfo.airport}</td>
+            <td>${flightInfo.scheduled}</td>
+            <td class="${statusClass}">${flightInfo.status}</td>
+            <td>${flightInfo.gate}</td>
+          </tr>
+        `;
+        resultBody.innerHTML = row;
+      } else {
+        messageElement.textContent = `便名SL${input}に一致する運行情報は見つかりませんでした。`;
+      }
+    }
+  </script>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+</body>
+</html>

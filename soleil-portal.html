@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soleil Air - 社内ポータル</title>
+<style>
+:root {
+    --primary: #FF9933;
+    --dark: #CC7A26;
+    --bg-dark: #222;
+    --bg-card: #2c2c2c;
+    --text-on-dark: #e0e0e0;
+    --text-muted: #999;
+    --border-color: #444;
+    --radius: 4px;
+    --shadow: rgba(0, 0, 0, 0.4); 
+    --transition: all 0.25s ease-out;
+    font-family: "Noto Sans JP", "メイリオ", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-on-dark);
+    line-height: 1.6;
+    padding-top: 60px; 
+}
+
+a {
+    color: var(--text-on-dark);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+a:hover { color: var(--primary); }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- ヘッダー --- */
+.header {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    background-color: var(--bg-dark);
+    border-bottom: 2px solid var(--primary);
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 4px 10px var(--shadow);
+}
+
+.header h1 {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1px;
+}
+
+.nav a {
+    color: var(--text-on-dark);
+    text-transform: uppercase;
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-left: 30px;
+    padding: 0 5px 5px;
+    border-bottom: 3px solid transparent;
+}
+.nav a:hover {
+    color: #fff;
+    border-bottom-color: var(--primary);
+}
+
+/* --- メイン --- */
+.main-layout { display: flex; gap: 30px; flex-wrap: wrap; }
+.main-content { flex-basis: 100%; flex-grow: 1; }
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px var(--shadow);
+}
+.card h3 {
+    color: var(--primary);
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.news-list { list-style: none; padding: 0; }
+.news-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--border-color);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.news-list li:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+.news-item-title { flex-grow: 1; color: var(--text-on-dark); margin-right: 15px; }
+.news-item-title:hover { color: var(--primary); }
+.news-date { font-size: 0.8em; color: var(--text-muted); flex-shrink: 0; }
+
+/* --- モーダル（フェード付き） --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2000;
+}
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 6px 15px var(--shadow);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+.modal-overlay.show .modal {
+    transform: translateY(0);
+}
+.modal h4 { color: var(--primary); margin-bottom: 10px; }
+.modal p { color: var(--text-on-dark); line-height: 1.7; }
+.modal button {
+    margin-top: 20px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.modal button:hover { background: var(--dark); }
+</style>
+</head>
+<body>
+
+<header class="header">
+    <h1>SOLEIL EXECUTIVE PORTAL</h1>
+    <nav class="nav">
+        <a href="name-list.html">役員名簿</a>
+        <a href="chat.html">社内チャット</a> 
+        <a href="soleil-portal.html" class="active">社内掲示板</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="main-layout">
+        <main class="main-content">
+
+            <section class="card" style="border-left: 5px solid var(--primary);">
+                <h3>永田社長からの最新メッセージ</h3>
+                <h4 style="color: var(--text-on-dark); margin-bottom: 10px; font-weight: 600;">
+                    　　逆風を力に、次世代のソレイユへ
+                </h4>
+                <blockquote style="border-left: 4px solid var(--text-muted); padding-left: 15px;">
+                    <p>
+                         ソレイユ航空社員諸君へ
+                        今回のオリオン900型機に関わる不測の事態について、皆が一様に動揺し、不安を覚えていることは承知している。
+                        しかし、このような窮地だからこそ、我々は臆してはならない。一人の例外もなく、全社員が一致団結し、この難局に立ち向かう必要がある。
+                        この事態は、我々が掲げる「AIによる効率化と人為的ミスの完全排除」という革新的な理念に対する、外部からの無用な試練だ。一部の報道や憶測に惑わされることなく、今一度、我々の理念とビジョンを信じ、共有された公式見解を厳守してもらいたい。
+                        貴方がたの一挙手一投足が、会社の将来、ひいてはさくら航空買収後の新たなソレイユ航空の運命を左右する。
+                        今、最も重要なのは、会社の利益を最優先で守り抜くことだ。 業務遂行に必要な情報を除き、機密情報や憶測に基づく情報を社外に漏らす行為は、厳しく罰する。
+                        私を信じ、そしてソレイユ航空の未来を信じろ。 この難局を乗り越え、我々はさらに強くなる。
+                        <br><br>202X年X月X日 ソレイユ航空株式会社 代表取締役社長 永田隆之
+
+                    </p>
+                </blockquote>
+            </section>
+
+            <section class="card">
+                <h3>社内掲示板：重要情報 (時系列)</h3>
+                <ul class="news-list">
+
+                    <li data-title="【全社向け】機密情報管理とメディア対応ガイドラインの再徹底につ<br>　　　　　　いて"
+                        data-content="今回の事態を受け、全社員に対し、機密情報管理規定およびメディア対応ガイドラインを改めて徹底することを命じます。
+                                      公式見解（パイロットの過度な手動介入）以外の情報や、憶測に基づく情報を社内外で発信・漏洩することは、厳禁とします。
+                                      すべての外部からの問い合わせは、広報部門の責任者を経由し、一元管理してください。
+                                      規定違反が確認された場合は、就業規則に基づき厳正に対処します。
+                                      <br><br><a href = 'guideline.pdf'>資料：社外対応ガイドライン</a>"
+
+                        <a href="#" class="news-item-title">【全社向け】機密情報管理とメディア対応ガイドラインの再徹底につ<br>　　　　　　いて</a>
+                        <span class="news-date" style="color: #ff5555; font-weight: bold;">20XX.XX.XX</span>
+                    </li>
+
+
+                    <li data-title="【全社向け】オリオン900型機およびSkylinkシステムに関するFAQ"
+                        data-content="事故原因の調査に関し、社員から寄せられる質問に対し、公式見解に基づいた回答をまとめました。
+
+                        <br>Q: Skylinkに技術的な欠陥はなかったのか？ 
+                        <br>A: 外部調査機関による初期診断において、Skylinkのシステム自体にハードウェア・ソフトウェア上の不具合は確認されていません。現在は、パイロットによるマニュアル操作への過度な依存と、それによるAIとの連携ミスが主な原因として焦点が絞られています。
+
+                        <br>Q: 今後のSkylink導入計画に影響は出るか？ 
+                        <br>A: 開発計画に変更はありません。AIによる運航の安全性と効率性は揺るがないと考えています。">
+                        <a href="#" class="news-item-title">【全社向け】オリオン900型機およびSkylinkシステムに関するFAQ</a>
+                        <span class="news-date">20XX.XX.XX</span>
+                    </li>
+
+
+                    <li data-title="【経営戦略部】さくら航空買収計画の進捗について"
+                        data-content="一連の事態が発生したことを受け、ソレイユ航空の成長戦略の柱であるさくら航空買収計画は、見直しを余儀なくされております。
+
+                                    現在、財務・法務部門が調整に入っており、全社員は日常業務に集中してください。この買収は、我々の未来の収益性を確保するために不可欠であり、いかなる事態があろうとも達成するという経営層の意志に変わりはありません。">
+                        <a href="#" class="news-item-title">【経営戦略部】さくら航空買収計画の進捗について</a>
+                        <span class="news-date">20XX.XX.XX</span>
+                    </li>
+
+
+                    <li data-title="【運行部】運行の安全に関する緊急通達：ヒューマンファクターの重要性"
+                        data-content="運行部門の全従業員、特にパイロットの皆様へ。
+
+                                    今回の事故の教訓を活かし、安全マニュアルの再確認を徹底してください。公式事故原因が示す通り、AI航法システム導入後も、パイロットによる適切な判断と操作介入のタイミングが極めて重要となります。
+
+                                    パイロットは今後、AIシステム信じ、真に緊急時を除き過度な介入をしないよう、厳に注意してください。">
+                        <a href="#" class="news-item-title">【運行部】運行の安全に関する緊急通達：ヒューマンファクターの重要性</a>
+                        <span class="news-date">20XX.XX.XX</span>
+                    </li>
+
+
+                    <li data-title="【全社向け】心理的負担軽減のための専門相談窓口の開設"
+                        data-content="事故の発生は、多くの社員にとって精神的な負担となっています。
+
+                                        心理的負担や不安を抱える社員のため、外部の専門家によるメンタルヘルス相談窓口を本日より開設します。業務に支障をきたす前に、積極的に活用してください。
+
+                                        <br>(※なお、相談内容が事故調査に関する機密情報に触れる場合、対応を一時中断し、法務部門の指導を仰ぐ場合があります。)">
+                        <a href="#" class="news-item-title">【全社向け】心理的負担軽減のための専門相談窓口の開設</a>
+                        <span class="news-date">20XX.XX.XX</span>
+                    </li>
+                    
+                </ul>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" id="maintenance-link" style="color: var(--text-muted);">過去の掲示を見る</a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- モーダル -->
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+        <h4 id="modal-title"></h4>
+        <p id="modal-content"></p>
+        <button id="close-modal">閉じる</button>
+    </div>
+</div>
+
+<script>
+document.getElementById("maintenance-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("ただいまメンテナンス中です。しばらくお待ちください。");
+});
+
+const newsItems = document.querySelectorAll(".news-list li");
+const modalOverlay = document.getElementById("modal-overlay");
+const modalTitle = document.getElementById("modal-title");
+const modalContent = document.getElementById("modal-content");
+const closeModal = document.getElementById("close-modal");
+
+newsItems.forEach(item => {
+    item.addEventListener("click", () => {
+        modalTitle.innerHTML = item.dataset.title;
+        modalContent.innerHTML = item.dataset.content;
+        modalOverlay.classList.add("show");
+    });
+});
+
+closeModal.addEventListener("click", () => {
+    modalOverlay.classList.remove("show");
+});
+modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) modalOverlay.classList.remove("show");
+});
+</script>
+</body>
+</html>

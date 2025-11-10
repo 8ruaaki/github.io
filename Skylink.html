@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skylink | 完全AI航法システム</title>
+
+<style>
+
+:root {
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+  --alert-bg: #222;
+}
+
+body {
+  font-family: "メイリオ", Meiryo, sans-serif;
+  margin: 0;
+  background: var(--bg-gray);
+  color: #333;
+  overflow-x: hidden;
+}
+
+
+a { text-decoration: none; color: inherit; }
+h1,h2,h3,h4,h5 { margin: 0; }
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  background: url('Gemini_Generated_Image_l09zdil09zdil09z.png') center/cover no-repeat;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--text-light);
+  position: relative;
+  background-color: #222;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeUp 1.2s ease-out both;
+}
+.hero-content h1 { font-size: 4rem; color: var(--primary); margin-bottom: 10px; }
+.hero-content p { font-size: 1.5rem; max-width: 700px; margin: 0 auto; }
+
+
+.cockpit-section, .safety-section {
+  padding: 50px 6%;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.cockpit-section h2, .safety-section h2 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.cockpit-image {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.pdf-download {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.pdf-button {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.pdf-button:hover {
+  background-color: var(--dark);
+  transform: translateY(-3px);
+}
+
+
+/* ===== Sections ===== */
+section { padding: 60px 0; background: var(--alert-bg); margin-bottom: 20px;  background-color: #222;}
+.section-title { font-size: 2rem; color: var(--primary); text-align: center; margin-bottom: 40px; }
+.features { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.feature-card { background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 10px; width: 260px; text-align: center; color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+.feature-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.feature-card h3 { color: var(--primary); margin-bottom: 10px; }
+.feature-card p { font-size: 0.95rem; line-height: 1.5; }
+
+
+
+/* ===== CTA ===== */
+.cta { text-align: center; margin-top: 0px; }
+.cta a {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary), var(--dark));
+  color: var(--text-light);
+  padding: 16px 50px;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+.cta a:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="soleil.html">Soleil Air　　</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+        <li><a href="domestic.html">就航地</a></li>
+        <li><a href="fleet.html">機材紹介</a></li>
+        <li><a href="aboutcompany.html">会社概要</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<body style="background-color: #222;">
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>完全AI航法システム Skylink</h1>
+    <p>人為的ミスを排除し、安全で効率的な空の旅を実現する次世代AI航法システム</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">Skylinkの特徴</div>
+  <div class="features">
+    <div class="feature-card">
+      <h3>完全AI航法</h3>
+      <p>高度なAIが操縦を完全自動化。人為的ミスゼロを目指します。</p>
+    </div>
+    <div class="feature-card">
+      <h3>安全性の確保</h3>
+      <p>常時監視・ログ記録・異常検知により、飛行の安全性を最大化。</p>
+    </div>
+    <div class="feature-card">
+      <h3>コスト削減</h3>
+      <p>人員負荷を減らし、運航コストを大幅にカット。効率的な運航を実現。</p>
+    </div>
+    <div class="feature-card">
+      <h3>運用データ</h3>
+      <p>オリオン900型機をはじめ、実運航データをもとに最適化されたAI航法。</p>
+    </div>
+  </div>
+</section>
+
+<section class="cockpit-section">
+  <h2>オリオン900型機 操縦室の紹介</h2>
+  <img src="Gemini_Generated_Image_jaiu0ijaiu0ijaiu.png" alt="オリオン900型機の操縦室" class="cockpit-image">
+  <p style="width: 900px;">
+    オリオン900型機の操縦室は、完全AI航法システム「<strong style="color: #FF9933;">Skylink</strong>」に最適化されて設計されています。  
+    最新のHUD（ヘッドアップディスプレイ）とタッチパネル操作により、パイロットは安全かつ効率的に機体を操作できます。  
+    AIと連携した監視システムにより、<strong style="color: #FF9933;">人為的ミスを大幅に削減し、異常時には即座にAIが介入する安全設計</strong>です。
+  </p>
+</section>
+
+<section class="safety-section">
+  <h2>安全対策・事故調査</h2>
+  <p style="width: 900px;">
+    当社はSkylink搭載機の運航において、徹底した安全対策を実施しています。  
+    事故発生時には国土交通省との合同調査を実施し、AIログを詳細に分析することで、原因究明と再発防止に努めています。
+  </p>
+  
+  <!-- PDFリンク -->
+  <div class="pdf-download">
+    <a href="incident-report.pdf" target="_blank" class="pdf-button">事故報告書をダウンロード</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+</body>
+</html>

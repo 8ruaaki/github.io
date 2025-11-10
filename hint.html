@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パスワードヒント | ソレイユ航空</title>
+<style>
+:root {
+  --corporate: #FF9933;
+  --dark-bg: #111;
+  --text-light: #fff;
+  --input-bg: #222;
+  --alert-red: #f44336;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --bg-gray: #f4f4f4;
+}
+
+body {
+  margin: 0;
+  font-family: "メイリオ", Meiryo, sans-serif;
+  background: var(--dark-bg);
+  color: var(--text-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.hint-container {
+  background: #222;
+  padding: 40px 35px;
+  border-radius: 12px;
+  width: 350px;
+  text-align: center;
+  
+}
+
+.hint-container h1 {
+  color: var(--dark);
+  font-size: 1.7rem;
+  margin-bottom: 20px;
+  
+}
+
+.hint-container input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--dark);
+  background: var(--input-bg);
+  color: var(--dark);
+  font-size: 1rem;
+  margin: 12px 0;
+}
+
+.hint-container button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(135deg, var(--dark), #ff7700);
+  color: var(--text-light);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.hint-container button:hover {
+  transform: translateY(-2px);
+  /* box-shadow: 0 6px 15px rgba(255,153,51,0.7); */
+}
+
+.result {
+  margin-top: 20px;
+  color: var(--corporate);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.home-button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: var(--input-bg);
+  color: var(--corporate);
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid var(--corporate);
+  transition: 0.3s;
+}
+
+.home-button:hover {
+  background: var(--dark);
+  color: var(--text-light);
+  
+}
+</style>
+</head>
+<body>
+
+<div class="hint-container">
+  <h1>黒崎さんへの秘密の質問</h1>
+  <p>娘の誕生日は？</p>
+  <input type="date" id="anniversary" required>
+  <button id="checkBtn">確認</button>
+  
+  <div class="result" id="result"></div>
+  
+  <a href="soleil-login.html" class="home-button">ログインページに戻る</a>
+</div>
+
+<script>
+const correctDate = "2014-06-02"; // 正しい結婚記念日
+const checkBtn = document.getElementById("checkBtn");
+const result = document.getElementById("result");
+
+checkBtn.addEventListener("click", () => {
+  const inputDate = document.getElementById("anniversary").value;
+  if(inputDate === correctDate){
+    result.textContent = "パスワードは結婚記念日です。";
+  } else {
+    result.textContent = "回答が正しくありません。";
+    result.style.color = "#f44336";
+  }
+});
+</script>
+
+</body>
+</html>

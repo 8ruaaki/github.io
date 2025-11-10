@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>職員用ログイン | soleil Air - 機密アクセス</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background-color: #0d1117; /* GitHub Dark Theme Background */
+            color: #c9d1d9;
+        }
+        .soleil-red {
+            color: #e3342f; /* Alert red */
+        }
+        .bg-soleil-red {
+            background-color: #e3342f;
+        }
+        .input-field {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+        }
+        /* カスタムメッセージボックスのスタイル */
+        #message-box {
+            z-index: 1000;
+        }
+
+        #forgotLink {
+            color: #c9d1d9; /* 通常時のリンク色 (既存のテキスト色に合わせる) */
+            text-decoration: none; /* 通常時は下線をなくす */
+            display: none; /* 初期状態で非表示にする (hiddenクラスに対応) */
+            font-size: 0.875rem; /* text-sm に相当 */
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #forgotLink:hover {
+            text-decoration: underline; /* ホバーで下線 */
+            color: #ff9933; /* ホバーで指定のオレンジ色に変更 */
+        }
+        
+        .accent {
+            color: #FF8C00; /* Dark Orange/Amber Accent */
+        }
+
+    </style>
+</head>
+
+    
+<body class="min-h-screen">
+
+     <!-- Header / Navigation -->
+    <header class="fixed top-0 w-full bg-[#1a1a1a] p-4 shadow-lg flex justify-between items-left border-b border-[#FF8C00]/30 z-50">
+        <h1 class="text-2xl font-bold flex items-center">
+            <span class="accent mr-2">SO</span>LEIL | <span class="text-sm ml-2">EXECUTIVE PORTAL</span>
+        </h1>
+        <div id="auth-info" class="text-sm">
+            <span id="user-display" class="hidden font-medium"></span>
+            <button id="logout-btn" onclick="logout()" class="hidden ml-4 text-red-400 hover:text-red-300 transition duration-150">ログアウト</button>
+        </div>
+    </header>
+
+    <!-- ログインコンテナ -->
+    <div class="w-full max-w-md p-8 space-y-8 bg-[#1f242c] rounded-xl shadow-2xl border border-[#30363d] mx-auto mt-[120px]">
+        
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-white mb-2">
+                STAFF ACCESS
+            </h1>
+            <p class="text-gray-400">ソレイユ航空 役員専用ポータル</p>
+        </div>
+
+        <!-- 警告メッセージ -->
+        <div class="bg-red-900/50 border border-red-700 p-4 rounded-lg text-sm text-red-300">
+            <p class="font-bold mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.576 2.628-1.576 3.393 0l7.106 14.212c.765 1.576-.307 3.393-2.004 3.393H3.15c-1.697 0-2.769-1.817-2.004-3.393l7.106-14.212zM10 16a1 1 0 100-2 1 1 0 000 2zm0-6a1 1 0 000 2h-1V8h1z" clip-rule="evenodd" />
+                </svg>
+                機密情報へのアクセス
+            </p>
+            <p>
+                本システムはソレイユ航空の機密情報を含みます。不正なアクセスは厳しく処罰されます。
+            </p>
+        </div>
+
+        <!-- ログインフォーム -->
+        <form class="loginForm" id="loginContainer">
+            <div>
+                <label for="staff-id" class="block text-sm font-medium text-gray-300 mb-1">職員ID(半角数字8桁)</label>
+                <!-- ユーザーにテスト用アカウントを示唆 -->
+                <input type="text" id="employeeId" 
+                       class="input-field w-full px-4 py-2 rounded-lg focus:ring-red-600 focus:border-red-600 transition duration-150">
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-300 mb-1">パスワード(半角数字8桁)</label>
+                <!-- ユーザーにテスト用アカウントを示唆 -->
+                <input type="password" id="password" 
+                       class="input-field w-full px-4 py-2 rounded-lg focus:ring-red-600 focus:border-red-600 transition duration-150">
+            </div>
+
+            <button type="submit" 
+                    class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-soleil-red hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 transform hover:scale-[1.01] focus:ring-offset-[#1f242c]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+                ログイン
+            </button>
+
+             <a href="hint.html" class="forgot-link" id="forgotLink" style="margin-top: 20px;">パスワードをお忘れですか？</a>
+        </form>
+
+        <!-- メインサイトへの戻るリンク -->
+        <div class="text-center pt-4 border-t border-[#30363d]">
+            <a href="soleil.html" class="text-sm text-yellow-400 hover:text-yellow-300 transition duration-150">
+                &larr; メインウェブサイトに戻る
+            </a>
+        </div>
+    </div>
+
+    <div id="message-box" class="fixed bottom-4 right-4 bg-red-800 text-white p-3 rounded-lg shadow-xl hidden transition-opacity duration-300"></div>
+
+<script>
+const correctId = "24256896";
+const correctPassword = "20140602";
+
+// 修正: IDを "loginContainer" に変更
+const form = document.getElementById("loginContainer"); 
+const forgotLink = document.getElementById("forgotLink");
+
+// ページのロード時にリンクを非表示にする (CSS/Tailwindで非表示にしていない場合)
+// 初期状態で非表示にする場合は、aタグに class="hidden" を追加するか、
+// 以下のコードを実行します。
+forgotLink.style.display = "none";
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const id = document.getElementById("employeeId").value;
+  const pw = document.getElementById("password").value;
+
+  // IDが正しく、パスワードが間違っている場合のみリンクを表示
+  if(id === correctId && pw === correctPassword) {
+    // 正しいログイン
+    window.location.href = "soleil-portal.html";
+  } else {
+    // alertはユーザーにエラーを通知
+    alert("IDまたはパスワードが間違っています。");
+
+    if(id === correctId && pw !== correctPassword) {
+      // パスワード忘れリンクを表示
+      forgotLink.style.display = "block";
+    } else {
+      // IDが間違っている場合はリンク非表示
+      forgotLink.style.display = "none";
+    }
+  }
+});
+</script>
+</body>
+</html>

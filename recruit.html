@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>採用情報 | ソレイユ航空</title>
+<style>
+:root {
+  --accent: #f9b234;
+  --accent-dark: #f08c00;
+  --bg-light: #fffaf3;
+  --text-dark: #222;
+  --text-light: #555;
+  --radius: 16px;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+  font-family: "Noto Sans JP", "メイリオ", sans-serif;
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+  --alert-bg: #222;
+}
+body {
+  margin: 0;
+  color: var(--text-dark);
+  font-family: "メイリオ", Meiryo, sans-serif;
+  background: #222;
+  color: #fff;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== Hero Section ===== */
+.main-visual {
+  background: url('Gemini_Generated_Image_y9ppxby9ppxby9pp.png') center/cover no-repeat;
+  height: 300px;
+  display: flex;
+  margin-top: 0;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  
+}
+.main-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) both;
+  white-space: nowrap;
+  margin-top: 60px;
+  
+}
+.hero-content > * {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1.2s cubic-bezier(0.25,0.1,0.25,1) forwards;
+}
+.hero-content .date { 
+  font-size: 1.4rem; 
+  color: var(--light);
+  animation-delay: 0.1s;
+}
+.hero-content h1 {
+  font-size: 4.8rem;
+  font-weight: 900;
+  margin: 10px 0;
+  text-shadow: 0 3px 20px rgba(0,0,0,0.6);
+  animation-delay: 0.3s;
+}
+.hero-content .tagline {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  animation-delay: 0.5s;
+  color: #fff;
+}
+.hero-content .merger-message {
+  margin-top: 25px;
+  background: rgba(255,255,255,0.15);
+  padding: 15px 25px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  animation-delay: 0.7s;
+}
+.hero-content .merger-message strong { color: var(--light); }
+
+.container {
+    margin: 40px 40px;
+    background: #222;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px var(--shadow);;
+    width: window-width - 80px;
+    white-space: nowrap;
+  }
+
+  /* .content{
+    width: 1200px;
+    position: relative;
+    margin-left: 40px;
+  } */
+
+  h1 {
+    color: var(--dark);
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--primary);
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    border-bottom: 3px solid var(--light);
+    padding-bottom: 10px;
+  }
+
+  /* セクション見出し */
+  h2 {
+    color: var(--dark);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-left: 6px solid var(--primary);
+    padding-left: 15px;
+    font-size: 1.8em;
+  }
+.message-box::-webkit-scrollbar {
+  /* 描画を完全に停止 */
+  display: none;
+  /* 確保された領域を強制的にゼロにする */
+  width: 0; 
+  height: 0;
+}
+.message-box {
+  /* スクロールバーの幅を「なし」に設定 */
+  scrollbar-width: none; 
+}
+
+  /* メッセージエリア */
+  .message-box {
+    background-color: var(--alert-bg);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid var(--alert-bg);
+    margin-bottom: 30px;
+    overflow-x: scroll;
+  }
+
+  .message-box p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 1.3em;
+  }
+
+  /* 募集職種カード */
+  .job-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+    
+  }
+
+  .job-card {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 20px;
+    width: calc(50% - 10px);
+    box-shadow: 0 4px 8px var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
+    min-width: 300px;
+  }
+
+  /* .job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  } */
+
+  .job-card h3 {
+    color: var(--accent-dark);
+    margin-top: 0;
+    font-size: 1.4em;
+    border-bottom: 2px dotted var(--light);
+    padding-bottom: 5px;
+  }
+
+  .job-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+  }
+
+  .job-card li {
+    padding-left: 1.5em;
+    position: relative;
+  }
+
+  .job-card li::before {
+    content: "▶";
+    color: var(--primary);
+    position: absolute;
+    left: 0;
+    font-size: 0.8em;
+  }
+
+  /* 募集要項テーブル */
+  .requirements-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid var(--light);
+  }
+
+  .requirements-table th, .requirements-table td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+  }
+
+  .requirements-table th {
+    background-color: var(--alert-bg);
+    color: var(--dark);
+    width: 30%;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .requirements-table td {
+    background-color: var(--alert-bg);
+  }
+
+
+/* 応募ボタン */
+  .apply-section {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .apply-button {
+     display: inline-block;
+  margin-top: 25px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  color: var(--text-light);
+  background: linear-gradient(135deg, var(--primary), var(--dark));
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  animation: fadeUp 1s ease forwards;
+  }
+
+  .apply-button:hover {
+    box-shadow: 0 6px 25px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, var(--dark), var(--primary));
+  }
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 3rem; }
+  .hero-content .tagline { font-size: 1.3rem; }
+  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+   <div class="nav-container">
+     <div class="logo">
+       <a href="soleil.html">Soleil Air　　</a>
+     </div>
+     <nav>
+       <ul>
+         <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+         <li><a href="domestic.html">就航地</a></li>
+         <li><a href="fleet.html">機材紹介</a></li>
+         <li><a href="aboutcompany.html">会社概要</a></li>
+       </ul>
+    </nav>
+   </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+<!-- ヒーローセクション -->
+<section class="main-visual">
+  <div class="hero-content">
+    <h1>採用情報</h1>
+    <p class="tagline">AIと共創し、空の旅に新たな「光」を生み出す仲間を募集。</p>
+  </div>
+ 
+</section>
+
+<div class="container">
+  <div class="content">
+    <h1>ソレイユ航空 採用情報 </h1>
+    <p class="subtitle">— 空の旅を、最高のチームで支えませんか —</p>
+
+    <div class="message-box">
+      <p style="text-align: center;">ソレイユ航空は、お客様に安心と喜びをお届けするため、日々挑戦を続けています。私たちと共に、未来の空を創り上げていく
+        <br>熱意ある仲間を募集しています。ホスピタリティ精神に溢れ、変化を恐れず成長できる方からのご応募をお待ちしております。</p>
+    </div>
+
+    <hr>
+
+    <h2>募集職種一覧</h2>
+    <div class="job-cards">
+      <div class="job-card">
+        <h3>客室乗務員 (Cabin Crew)</h3>
+        <ul>
+          <li>安全運航を担う保安要員</li>
+          <li>機内でのサービス業務</li>
+          <li>快適な空の旅の提供</li>
+        </ul>
+      </div>
+      <div class="job-card">
+        <h3>運航乗務員 (Pilot)</h3>
+        <ul>
+          <li>国内線・国際線の運航業務</li>
+          <li>最新鋭機材の操縦</li>
+          <li>高度な安全意識と技術</li>
+        </ul>
+      </div>
+      <div class="job-card">
+        <h3>グランドスタッフ</h3>
+        <ul>
+          <li>搭乗手続き、案内業務</li>
+          <li>手荷物の受託、管理</li>
+          <li>お客様対応の最前線</li>
+        </ul>
+      </div>
+      <div class="job-card">
+        <h3>整備士</h3>
+        <ul>
+          <li>航空機の点検・整備</li>
+          <li>安全基準の厳守</li>
+          <li>技術革新への対応</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>共通募集要項 (新卒・キャリア共通)</h2>
+    <table class="requirements-table">
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>勤務地</th>
+          <td>東京(羽田)、大阪(伊丹)、福岡、札幌(新千歳)など 各拠点</td>
+        </tr>
+        <tr>
+          <th>給与</th>
+          <td>経験、能力を考慮の上、当社規定により決定</td>
+        </tr>
+        <tr>
+          <th>昇給・賞与</th>
+          <td>昇給：年1回 / 賞与：年2回（業績による）</td>
+        </tr>
+        <tr>
+          <th>勤務時間</th>
+          <td>変形労働時間制（フライトスケジュールに基づく）</td>
+        </tr>
+        <tr>
+          <th>休日・休暇</th>
+          <td>年間休日120日（公休、特別休暇含む）、有給休暇、慶弔休暇など</td>
+        </tr>
+        <tr>
+          <th>福利厚生</th>
+          <td>社会保険完備、社員優待搭乗制度、各種手当、独身寮完備（一部拠点）</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="apply-section">
+      <a href="#" class="apply-button">エントリーはこちらから</a>
+      <p style="margin-top: 15px; font-size: 0.9em; color: var(--dark);">詳細な職種別要項はエントリー後にご案内いたします。</p>
+    </div>
+  </div>
+  </div>
+</body>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+
+
+</body>
+</html>

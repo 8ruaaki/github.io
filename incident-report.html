@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>事故詳細報告 | Soleil Air</title>
+<style>
+:root {
+  --primary: #FF9933;
+  --dark: #CC7A26;
+  --light: #FFD699;
+  --text-light: #FFF;
+  --bg-gray: #f4f4f4;
+}
+
+body {
+  font-family: "メイリオ", Meiryo, sans-serif;
+  margin: 0;
+  background: #222;
+  color: #333;
+  line-height: 1.8;
+}
+
+/* ===== Header ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  color: #fff;
+  border-bottom: 2px solid var(--primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100%; /* 変更: 100vw -> 100%（スクロールバー幅の影響を受けない） */
+  box-sizing: border-box;
+  /* overflow-x: hidden; 削除（不必要なら残しても可） */
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* 追加: 中央寄せの最大幅 */
+  margin: 0 auto;    /* 追加: 画面中央に固定 */
+  padding: 16px 24px; /* 変更: パーセンテージ -> 固定パディングでズレ軽減 */
+  white-space: nowrap; /* ウィンドウを狭めても折り返さない */
+  box-sizing: border-box;
+}
+
+.logo a {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: var(--light);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* モバイル時の縦並びやレイアウト変化を禁止 */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+  }
+
+  .nav-container {
+    flex-direction: row;
+  }
+
+  nav ul {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ===== Main ===== */
+main::-webkit-scrollbar {
+  /* 描画を完全に停止 */
+  display: none;
+  /* 確保された領域を強制的にゼロにする */
+  width: 0; 
+  height: 0;
+}
+main{
+  /* スクロールバーの幅を「なし」に設定 */
+  scrollbar-width: none; 
+}
+main {
+  max-width: 900px;
+  margin: 60px auto;
+  background: #222;
+  color: #f4f4f4;
+  padding: 60px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 1s ease;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+main h1 {
+  color: var(--primary);
+  font-size: 1.8rem;
+  text-align: center;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px;
+  margin-bottom: 40px;
+}
+main h2 {
+  color: var(--dark);
+  font-size: 1.3rem;
+  margin-top: 40px;
+}
+main p {
+  margin: 15px 0;
+}
+strong { color: var(--dark); }
+
+/* ===== Back Button ===== */
+.back-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  color: var(--text-light);
+  background: linear-gradient(135deg, var(--primary), var(--dark));
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  animation: fadeUp 1s ease forwards;
+}
+.back-btn:hover {
+  /* transform: translateY(-3px); */
+  box-shadow: 0 6px 25px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, var(--dark), var(--primary));
+}
+
+/* ===== Footer ===== */
+footer {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  color: #ccc;
+  padding: 60px 6% 30px;
+  font-size: 0.9rem;
+  animation: fadeUp 1s ease-out both;
+}
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  gap: 30px;
+}
+.footer-col h4 {
+  color: var(--light);
+  margin-bottom: 12px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+  font-size: 1.1rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-col a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 6px;
+  transition: color 0.3s;
+}
+.footer-col a:hover {
+  color: var(--primary);
+}
+.footer-social {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.footer-social a {
+  color: var(--light);
+  margin: 0 10px;
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+.footer-social a:hover {
+  color: var(--primary);
+}
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="logo">
+      <a href="soleil.html">Soleil Air　　</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank">航空券予約</a></li>
+        <li><a href="domestic.html">就航地</a></li>
+        <li><a href="fleet.html">機材紹介</a></li>
+        <li><a href="aboutcompany.html">会社概要</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>【重要】20XX年XX月XX日 オリオン900型機 事故に関する詳細報告</h1>
+
+  <h2>1. 事故調査の最終結論</h2>
+  <p>
+    このたびのオリオン900型機墜落事故に関し、弊社は国土交通省を始めとする関係当局、外部の独立調査機関および専門家
+    <br>と合同で、徹底的なデータ解析を進めてまいりました。改めて亡くなられた<strong>安藤浩紀パイロット</strong>のご遺族に対し、心より哀悼
+    <br>の意を表します。<strong>国土交通省との合同調査</strong>の結果、機体に搭載されたAI航法システム「<strong>Skylink</strong>」および機体構造に設計上、製
+    <br>造上の致命的な不具合の痕跡は一切確認されておりません。結論として、Skylinkシステムが<strong>正常な運航支援データを送出して
+    <br>いた</strong>にもかかわらず、何らかの理由により、パイロットがシステムの指示に反して、機体の安定を損なう<strong>過度な手動介入</strong>を行っ
+    <br>たことが、事故の直接的な原因であると断定いたしました。
+  </p>
+
+  <h2>2. 航法システム「Skylink」の動作検証</h2>
+  <p>
+    Skylinkは、テスト段階の実績から見ても<strong>極めて高い安全性</strong>を誇ります。本事故におけるログ解析においても、Skylinkは機体の
+    <br>異常を検知した際、直ちに機体の制御を自動維持するためのプロトコル（<strong>緊急着陸プロトコル</strong>）を作動させようとしていました。
+    <br>しかしながら、この緊急制御の作動中に、<strong>パイロットの手動操作がシステムの閾値を超えて強力に介入</strong>したため、Skylinkのセー
+    <br>フティガードを停止し、結果的に機体を制御不能な状態に陥らせたと考えられます。この事実は、弊社が追求するAIによる人為的
+    <br>ミスの完全排除の必要性を改めて証明するものです。
+  </p>
+
+  <h2>30. 今後の対応</h2>
+  <p>
+    弊社は、今回の事故を厳粛に受け止め、以下の対策を直ちに実施いたします。
+
+    <br>1. 全パイロットに対するSkylinkシステムの再教育および操作プロトコルの徹底強化
+    <br>2. Skylinkシステムのさらなる改良と冗長性の強化
+    <br>3. 定期的な外部監査および第三者機関による安全性評価の実施
+
+    <br><br>Soleil Airは、安全を最優先に、より信頼される航空運航体制を築いてまいります。
+  </p>
+ 　  <h2>4. お詫び</h2>
+  <p>
+    このたびの件でご心配・ご迷惑をおかけしたお客様、関係各所の皆様に、心よりお詫び申し上げます。
+    <br>Soleil Airは、安全を最優先に、より信頼される航空運航体制を築いてまいります。
+  </p>
+<br>
+<a href="incident-report.pdf" class="back-btn">墜落調査報告書（公表版）をダウンロード</a>
+<br>
+<a href="soleil.html" class="back-btn">トップページへ戻る</a>
+
+</main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h4>ご予約・運航情報</h4>
+      <ul>
+        <li><a href="https://www.skyscanner.jp/" target="_blank" rel="noopener noreferrer">航空券予約</a></li>
+        <li><a href="status.html">運航状況</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="service.html">機内サービス</a></li>
+        <li><a href="baggage.html">手荷物案内</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+  <h4>企業情報</h4>
+  <ul>
+    <li><a href="aboutcompany.html">会社概要</a></li>
+    <li><a href="recruit.html">採用情報</a></li>
+    <li><a href="csr.html">CSR活動</a></li>
+  </ul>
+</div>
+    <div class="footer-col">
+      <h4>サポート</h4>
+      <ul>
+        <li><a href="contact.html">お問い合わせ</a></li>
+        
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-social">
+    🌐 Follow us: 
+    <a href="#">X</a> | 
+    <a href="#">Instagram</a> | 
+    <a href="#">YouTube</a>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Soleil Air. All rights reserved. | 日本語 / JPY
+  </div>
+</footer>
+
+
+</body>
+</html>
