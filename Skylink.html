@@ -14,6 +14,7 @@
   --text-light: #FFF;
   --bg-gray: #f4f4f4;
   --alert-bg: #222;
+  --accent: #f9b234;
 }
 
 body {
@@ -102,21 +103,6 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* モバイル時の縦並びやレイアウト変化を禁止 */
-@media (max-width: 768px) {
-  header {
-    position: fixed;
-  }
-
-  .nav-container {
-    flex-direction: row;
-  }
-
-  nav ul {
-    flex-direction: row;
-    gap: 32px;
-  }
-}
 
 /* ===== Hero Section ===== */
 .hero {
@@ -152,19 +138,32 @@ nav a:hover::after {
   margin: 0 auto;
   color: #fff;
 }
+.safety-section p {
+  width: 1200px; 
+  margin-left: 40px;
+}
+
+.cockpit-section p{
+  width: 1200px;
+  margin-left: 40px;
+}
 
 .cockpit-section h2, .safety-section h2 {
-  font-size: 2rem;
   color: var(--primary);
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  border-left: 6px solid var(--accent);
+  padding-left: 15px;
+  margin-bottom: 40px;
+  margin: 0px 20px;
 }
 
 .cockpit-image {
   width: 100%;
-  max-width: 900px;
+  max-width: 700px;
   height: auto;
-  border-radius: 12px;
+  margin-top: 20px;
   margin-bottom: 20px;
+  margin-left: 40px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
 
@@ -191,7 +190,7 @@ nav a:hover::after {
 
 
 /* ===== Sections ===== */
-section { padding: 60px 0; background: var(--alert-bg); margin-bottom: 20px;  background-color: #222;}
+section { padding: 60px 0; background: var(--alert-bg); margin-bottom: 0px;  background-color: #222;}
 .section-title { font-size: 2rem; color: var(--primary); text-align: center; margin-bottom: 40px; }
 .features { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 .feature-card { background: rgba(0, 0, 0, 0.3); padding: 25px; border-radius: 10px; width: 260px; text-align: center; color: #fff;
@@ -273,18 +272,49 @@ footer {
   color: #999;
 }
 
+.sp-only{
+  display: none;
+}
+
 /* ===== Animation ===== */
 @keyframes fadeUp {
   0% { opacity: 0; transform: translateY(30px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+
+    .sp-only{
+    display: block;
+  }
+
+  .pc-only{
+    display: none;
+  }
+/* --- 1. ヘッダー/ナビゲーションの修正 --- */
+    .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
+
+    /* --- 2. ヒーローセクションの修正 --- */
+    .hero { min-height: 400px; height: 60vh;/* モバイルでは少し高さを抑える */ }
+    .hero-content h1 { font-size: 1.8rem; margin: 10px 0px; }
+    .hero-content p { font-size: 1.3rem; margin-bottom: 15px;}
+    .hero-content .merger-message { font-size: 0.95rem; padding: 12px 18px; }
+        /* --- 5. フッターの修正 --- */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+    .footer-col { width: 80%; margin-bottom: 0; }
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
+    .footer-col h4 { margin-bottom: 10px; }
+    .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .footer-col li { margin-bottom: 0; }
+
+    .cockpit-section p { width: 300px; }
+    .safety-section p { width: 300px; }
+    .cockpit-image{ width: 300px; margin-left: 20px;}
+    .cockpit-section p { margin-left: 20px;}
+    .safety-section p { margin-left: 20px;}
 }
 </style>
 </head>
@@ -311,7 +341,7 @@ footer {
 <section class="hero">
   <div class="hero-content">
     <h1>完全AI航法システム Skylink</h1>
-    <p>人為的ミスを排除し、安全で効率的な空の旅を実現する次世代AI航法システム</p>
+    <p>人為的ミスを排除し、<br class="sp-only">安全で効率的な空の旅を実現する<br class="sp-only">次世代AI航法システム</p>
   </div>
 </section>
 
@@ -340,16 +370,16 @@ footer {
 <section class="cockpit-section">
   <h2>オリオン900型機 操縦室の紹介</h2>
   <img src="Gemini_Generated_Image_jaiu0ijaiu0ijaiu.png" alt="オリオン900型機の操縦室" class="cockpit-image">
-  <p style="width: 900px;">
-    オリオン900型機の操縦室は、完全AI航法システム「<strong style="color: #FF9933;">Skylink</strong>」に最適化されて設計されています。  
-    最新のHUD（ヘッドアップディスプレイ）とタッチパネル操作により、パイロットは安全かつ効率的に機体を操作できます。  
+  <p>
+    オリオン900型機の操縦室は、完全AI航法システム「<strong style="color: #FF9933;">Skylink</strong>」に最適化されて設計されています。<br class="sp-only"><br class="sp-only">
+    最新のHUD（ヘッドアップディスプレイ）とタッチパネル操作により、パイロットは安全かつ効率的に機体を操作できます。<br class="sp-only"><br class="sp-only">  
     AIと連携した監視システムにより、<strong style="color: #FF9933;">人為的ミスを大幅に削減し、異常時には即座にAIが介入する安全設計</strong>です。
   </p>
 </section>
 
 <section class="safety-section">
   <h2>安全対策・事故調査</h2>
-  <p style="width: 900px;">
+  <p>
     当社はSkylink搭載機の運航において、徹底した安全対策を実施しています。  
     事故発生時には国土交通省との合同調査を実施し、AIログを詳細に分析することで、原因究明と再発防止に努めています。
   </p>

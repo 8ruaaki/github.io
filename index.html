@@ -97,24 +97,6 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* モバイル時の縦並びやレイアウト変化を禁止 */
-@media (max-width: 768px) {
-  header {
-    position: fixed;
-  }
-
-  .nav-container {
-    flex-direction: row;
-  }
-
-  nav ul {
-    flex-direction: row;
-    gap: 32px;
-  }
-}
-
-
-
 /* ===== Hero Section ===== */
 .hero-image-actual {
     position: absolute; /* 親要素 (.main-visual) の位置を基準にする */
@@ -535,11 +517,7 @@ footer {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .merger-message {font-size: 1rem;}
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
+@media (max-width: 414px) {
   .sp-only{
     display: block;
   }
@@ -550,24 +528,24 @@ footer {
 
   /* --- 1. ヘッダー/ナビゲーションの修正 --- */
     .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
-    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; }
-    .nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
-    .nav a { font-size: 0.85rem; padding: 5px 10px; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
 
     /* --- 2. ヒーローセクションの修正 --- */
-    .main-visual { min-height: 500px; height: 70vh; /* モバイルでは少し高さを抑える */ }
-    .hero-content h1 { font-size: 2rem; margin: 10px 0; }
-    .hero-content .tagline { font-size: 1.3rem; margin-bottom: 15px;}
+    .main-visual { min-height: 400px; height: 60vh;/* モバイルでは少し高さを抑える */ }
+    .hero-content h1 { font-size: 1.8rem; margin: 10px 0px; }
+    .hero-content .tagline { font-size: 1.2rem; margin-bottom: 15px;}
     .hero-content .merger-message { font-size: 0.95rem; padding: 12px 18px; }
     .booking-button { margin-top: 30px; padding: 14px 35px; font-size: 1.05rem; }
     /* --- 3. アラート/ニュースセクションの強制解除と調整 --- */
-    .alert-banner { padding: 30px 15px; }
+    .alert-banner { padding: 30px 15px; overflow-x: hidden; }
     .alert-banner h3 { font-size: 1.3rem; }
-    .alert-banner p { width: auto; max-width: 100%; font-size: 0.9rem; line-height: 1.5;text-align: center; }
+    .alert-banner p { width: auto; max-width: 100%; font-size: 0.9rem; line-height: 1.5;text-align: left; }
     
-    .news-section { padding: 40px 15px; }
+    .news-section { padding: 40px 15px; overflow-x: hidden; }
     .news-section h2 { font-size: 2rem; margin-bottom: 30px; }
-    .news-item { width: auto; font-size: 0.9rem; padding: 15px; margin-bottom: 15px; }
+    .news-item { width: 300px; font-size: 0.9rem; padding: 15px; margin-bottom: 15px; }
     .news-item h3 { font-size: 1.1rem; }
     .news-item p { font-size: 0.85rem; }
     .news-link { margin-top: 30px; }
@@ -581,7 +559,7 @@ footer {
     /* --- 5. フッターの修正 --- */
     .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
     .footer-col { width: 80%; margin-bottom: 0; }
-    .footer-col a { display: inline; margin: 0 8px; } /* モバイルで横並びにする */
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
     .footer-col h4 { margin-bottom: 10px; }
     .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .footer-col li { margin-bottom: 0; }
@@ -632,10 +610,10 @@ footer {
     <h3>【重要】<br class="sp-only">オリオン900型機 墜落事故に関する<br class="sp-only">ご報告と心よりのお詫び</h3>
 
     <p>
-      このたび、弊社が導入予定であった<strong>オリオン900型機</strong>が、<br class="sp-only"><strong>アストレオン</strong>社のペイン・フィールド空港（PAE）から<br class="sp-only">東京国際空港（RJTT）への<br class="pc-only"><strong style="color: var(--soleil-light);">回送運行（フェリーフライト）<br class="sp-only">中</strong>に墜落する事故が発生いたしました。
-      <br><br>この事態を厳粛に受け止めるとともに、今回の事故により、<br class="sp-only">搭乗していた<strong style="color: var(--soleil-light);">弊社エースパイロット</strong>の<strong>安藤浩紀氏</strong>が亡くな<br class="sp-only">られたことに、深い哀悼<br class="pc-only">の意を表します。
-      <br><br>この事故によるその他の犠牲者はおりません。現在までの<br class="sp-only">詳細な調査の結果、機体システム(<strong>Skylink</strong>)に<strong style="color: var(--soleil-light);">致命的な欠<br class="sp-only">陥は確認されず</strong>、<strong>パイロット<br class="pc-only">による不適切な手動介入</strong>が主<br class="sp-only">要因であるとの結論に至っております。
-      <br><br>弊社は、この結果を重く受け止めつつも、今後も<strong style="color: var(--soleil-light);">AI技術の<br class="sp-only">活用によって人為的ミスを極限まで減らし</strong>、より安全な運<br class="sp-only">航体制を構築する理念を<br class="pc-only">堅持してまいります。引き続き真<br class="sp-only">相解明に努め、再発防止を徹底いたします。
+      このたび、弊社が導入予定であった<strong>オリオン900型機</strong><br class="sp-only">が、<strong>アストレオン</strong>社のペイン・フィールド空港（PAE）<br class="sp-only">から東京国際空港（RJTT）への<br class="pc-only"><strong style="color: var(--soleil-light);">回送運行（フェリーフ<br class="sp-only">ライト）中</strong>に墜落する事故が発生いたしました。
+      <br><br>この事態を厳粛に受け止めるとともに、今回の事故に<br class="sp-only">より、搭乗していた<strong style="color: var(--soleil-light);">弊社エースパイロット</strong>の<strong>安藤浩紀<br class="sp-only">氏</strong>が亡くなられたことに、深い哀悼<br class="pc-only">の意を表します。
+      <br><br>この事故によるその他の犠牲者はおりません。現在ま<br class="sp-only">での詳細な調査の結果、機体システム(<strong>Skylink</strong>)に<strong style="color: var(--soleil-light);">致命<br class="sp-only">的な欠陥は確認されず</strong>、<strong>パイロット<br class="pc-only">による不適切な手<br class="sp-only">動介入</strong>が主要因であるとの結論に至っております。
+      <br><br>弊社は、この結果を重く受け止めつつも、今後も<strong style="color: var(--soleil-light);">AI技<br class="sp-only">術の活用によって人為的ミスを極限まで減らし</strong>、より<br class="sp-only">安全な運航体制を構築する理念を<br class="pc-only">堅持してまいります。<br class="sp-only">引き続き真相解明に努め、再発防止を徹底いたします。
     </p>
 
     <p style="margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; text-align: center;">

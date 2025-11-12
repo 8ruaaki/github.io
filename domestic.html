@@ -447,6 +447,10 @@ footer {
   color: #999;
 }
 
+.sp-only{
+  display: none;
+}
+
 /* ===== Animation ===== */
 @keyframes fadeUp {
   0% { opacity: 0; transform: translateY(30px); }
@@ -455,10 +459,32 @@ footer {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+
+    .sp-only{
+    display: block;
+  }
+
+  .pc-only{
+    display: none;
+  }
+/* --- 1. ヘッダー/ナビゲーションの修正 --- */
+    .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
+
+    /* --- 2. ヒーローセクションの修正 --- */
+    .main-visual { min-height: 400px; height: 60vh;/* モバイルでは少し高さを抑える */ }
+    .hero-content h1 { font-size: 1.8rem; margin: 10px 0px; }
+    .hero-content .tagline { font-size: 1.2rem; margin-bottom: 15px;}
+    .hero-content .merger-message { font-size: 0.95rem; padding: 12px 18px; }
+        /* --- 5. フッターの修正 --- */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+    .footer-col { width: 80%; margin-bottom: 0; }
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
+    .footer-col h4 { margin-bottom: 10px; }
+    .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .footer-col li { margin-bottom: 0; }
 }
 
 
@@ -486,14 +512,14 @@ footer {
 <section class="main-visual">
   <div class="hero-content">
     <h1>就航地</h1>
-    <p class="tagline">ソレイユ航空は日本、そして世界を結ぶ翼となります。</p>
+    <p class="tagline">ソレイユ航空は日本、<br class="sp-only">そして世界を結ぶ翼となります。</p>
   </div>
  
 </section>
 
 <main class="container">
     <div class="page-title-section">
-      <h1>ソレイユ航空 就航地一覧</h1>
+      <h1>ソレイユ航空 <br class="sp-only">就航地一覧</h1>
       <p style="color: #FFF;">皆様の旅の目的地となる、世界各地の魅力的な都市をご紹介します。</p>
     </div>
 

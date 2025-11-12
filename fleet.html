@@ -106,21 +106,6 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* モバイル時の縦並びやレイアウト変化を禁止 */
-@media (max-width: 768px) {
-  header {
-    position: fixed;
-  }
-
-  .nav-container {
-    flex-direction: row;
-  }
-
-  nav ul {
-    flex-direction: row;
-    gap: 32px;
-  }
-}
 
 /* ===== Hero Section ===== */
 .main-visual {
@@ -186,24 +171,25 @@ nav a:hover::after {
 .hero-content .merger-message strong { color: var(--light); }
 
 /* ====== Fleet Section ====== */
-section {
-  /* max-width: 1100px; */
-  margin: 60px auto;
-  /* padding: 0 0; */
-}
+/* section {
+  margin: 60px 20px;
+} */
 
 section h2 {
   font-size: 1.8rem;
   border-left: 6px solid var(--accent);
   padding-left: 15px;
   margin-bottom: 40px;
+  margin: 60px 20px;
 }
 
 /* ====== Fleet Cards ====== */
 .fleet-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 900fr));
   gap: 30px;
+  margin: 0 40px;
+
 }
 
 .fleet-card {
@@ -212,9 +198,7 @@ section h2 {
   box-shadow: 0 4px 12px var(--shadow);
   overflow: hidden;
   transition: var(--transition);
-  width: 380px;
-  margin-left: 1px;
-  margin-right: 1px;
+  width: 300px;
 }
 
 .fleet-card:hover {
@@ -247,11 +231,12 @@ section h2 {
 /* ====== Orion Section ====== */
 .orion-section {
   background: #222;
-  border-radius: var(--radius);
-  box-shadow: 0 4px 12px var(--shadow);
-  padding: 40px;
+  /* border-radius: var(--radius); */
+  /* box-shadow: 0 4px 12px var(--shadow); */
+  padding: 0px;
   margin-top: 80px;
   color: #FFF;
+  
 }
 
 .orion-section h2 {
@@ -264,12 +249,14 @@ section h2 {
   line-height: 1.8;
   color: #FFF;
   margin-bottom: 25px;;
+  margin: 20px 40px;
 }
 
 .orion-images {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 0.5fr));
   gap: 25px;
+  margin: 20px 40px;
   
 }
 
@@ -278,13 +265,10 @@ section h2 {
 .orion-images .imageofoutside{
   background: url("Gemini_Generated_Image_wo8t6hwo8t6hwo8t.png");
   background-size: 100%;
-  border-radius: 12px;
-  height: 220px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #aaa;
-  font-size: 0.95rem;
   background-repeat: no-repeat;
   
 }
@@ -292,8 +276,7 @@ section h2 {
 .orion-images .seatmap{
   background: url("3btljf5balu91.webp");
   background-size: 100%;
-  border-radius: 12px;
-  height: 220px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -306,8 +289,7 @@ section h2 {
 .orion-images .cockpit{
   background: url("Gemini_Generated_Image_jaiu0ijaiu0ijaiu.png");
   background-size: 100%;
-  border-radius: 12px;
-  height: 220px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -335,12 +317,12 @@ section h2 {
   border-left: 5px solid var(--accent-dark);
   border-radius: var(--radius);
   padding: 25px 30px;
-  margin-top: 60px;
   font-size: 1rem;
   line-height: 1.8;
   color: #fff;
-  width: 900px;
   overflow-x: scroll;
+  margin: 20px 40px;
+  width: 1400px;
   /* white-space: nowrap; */
 }
 .message strong {
@@ -356,6 +338,9 @@ footer {
   animation: fadeUp 1s ease-out both;
 }
 .footer-content {
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center; 
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -405,6 +390,10 @@ footer {
   color: #999;
 }
 
+.sp-only{
+  display: none;
+}
+
 /* ===== Animation ===== */
 @keyframes fadeUp {
   0% { opacity: 0; transform: translateY(30px); }
@@ -412,11 +401,36 @@ footer {
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+@media (max-width: 414px) {
+    .sp-only{
+    display: block;
+  }
+
+  .pc-only{
+    display: none;
+  }
+/* --- 1. ヘッダー/ナビゲーションの修正 --- */
+    .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
+
+    /* --- 2. ヒーローセクションの修正 --- */
+    .main-visual { min-height: 400px; height: 60vh;/* モバイルでは少し高さを抑える */ }
+    .hero-content h1 { font-size: 1.8rem; margin: 10px 0px; }
+    .hero-content .tagline { font-size: 1.2rem; margin-bottom: 15px;}
+    .hero-content .merger-message { font-size: 0.95rem; padding: 12px 18px; }
+        /* --- 5. フッターの修正 --- */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+    .footer-col { width: 80%; margin-bottom: 0; }
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
+    .footer-col h4 { margin-bottom: 10px; }
+    .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .footer-col li { margin-bottom: 0; }
+
+    .message{ padding: 10px 0px; width: 300px; overflow-x: hidden; border-left: none; border-radius: none;}
+
+    
 }
 </style>
 </head>
@@ -445,7 +459,7 @@ footer {
 <section class="main-visual">
   <div class="hero-content">
     <h1>機材紹介</h1>
-    <p class="tagline">最新鋭の技術が、皆様の空の旅を支える。</p>
+    <p class="tagline">最新鋭の技術が、<br class="sp-only">皆様の空の旅を支える。</p>
   </div>
  
 </section>
@@ -471,7 +485,7 @@ footer {
     </div>
 
     <div class="fleet-card">
-      <img src="Gemini_Generated_Image_jzag42jzag42jzag.png" alt="orion-600">
+      <img src="Gemini_Generated_Image_sc5jt4sc5jt4sc5j.png" alt="orion-600">
       <div class="fleet-card-content">
         <h3>Astoreon Orion-600</h3>
         <p>中型ワイドボディ機としての最適なサイズと双発エンジンの高い効率性を兼ね備えた、汎用性の高い主力機です。長距離国際線と国内主要幹線で活躍し、柔軟な運用を可能にします。複通路ならではのゆとりある機内と、静粛性の高い設計により、長時間のフライトでもお客様に快適さとリラックスした時間を提供します。</p>
@@ -479,7 +493,7 @@ footer {
     </div>
 
     <div class="fleet-card">
-      <img src="Gemini_Generated_Image_498rf8498rf8498r.png" alt="orion-190 neo">
+      <img src="Gemini_Generated_Image_fiwcpkfiwcpkfiwc.png" alt="orion-190 neo">
       <div class="fleet-card-content">
         <h3>【近日引退】Astoreon orion-190 neo</h3>
         <p>優れた運航の柔軟性を持つ小型リージョナルジェットです。先進的なneoエンジンにより、これまで採算が難しかった短距離の地方路線において、高い経済効率と安定したサービスを提供し、地域間ネットワーク維持に大きく貢献しました。この度、その輝かしい功績を称え、間もなく惜しまれながらも現役を引退します。</p>
@@ -502,9 +516,9 @@ footer {
   </div>
 
   <div class="message">
-    <strong>Skylinkシステムとは：</strong><br>
-    Skylinkは、東雲ダイナミクスが独自開発し、全機材に搭載するAI航法システムです。フライトプランの作成から離着陸に至るまで、飛行の全工程をAIが最適化・制御。人間の判断ミスや疲労によるヒューマンエラーをゼロにし、運航の安全性と定時性を極限まで高めます。特にオリオン900型機に搭載された「Skylink 2.0」は、機体と完全に統合されており、運航コストを大幅に削減する、当社の経営戦略の中核を担うシステムです。
-    <br><a href="Skylink.html" style="color: #ff9933;">→詳細はこちら</a>
+    <strong>Skylinkシステムとは：</strong><br><br class="sp-only">
+    Skylinkは、東雲ダイナミクスが独自開発<br class="sp-only">し、全機材に搭載するAI航法システムです。<br class="sp-only"><br class="sp-only">フライトプランの作成から離着陸に至るまで、飛行の全工程をAIが最適化・制御。人間の判断ミスや疲労によるヒューマンエラーをゼロにし、運航の安全性と定時性を極限まで高めます。<br class="sp-only"><br class="sp-only">特にオリオン900型機に搭載された「Skylink2.0」は、機体と完全に統合されており、運航コストを大幅に削減する、当社の経営戦略の中核を担うシステムです。
+    <br><br class="sp-only"><br class="sp-only"><a href="Skylink.html" style="color: #ff9933;">→詳細はこちら</a>
   </div>
 </section>
 
