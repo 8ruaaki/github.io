@@ -105,22 +105,6 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* モバイル時の縦並びやレイアウト変化を禁止 */
-@media (max-width: 768px) {
-  header {
-    position: fixed;
-  }
-
-  .nav-container {
-    flex-direction: row;
-  }
-
-  nav ul {
-    flex-direction: row;
-    gap: 32px;
-  }
-}
-
 /* ===== Hero Section ===== */
 .hero {
   background: linear-gradient(to right, #111, #222);
@@ -244,18 +228,45 @@ footer {
   color: #999;
 }
 
+.sp-only{
+  display: none;
+}
+
 /* ===== Animation ===== */
 @keyframes fadeUp {
   0% { opacity: 0; transform: translateY(30px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+@media (max-width: 414px) {
+
+    .sp-only{
+    display: block;
+  }
+
+  .pc-only{
+    display: none;
+  }
+/* --- 1. ヘッダー/ナビゲーションの修正 --- */
+    .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
+
+    /* --- 2. ヒーローセクションの修正 --- */
+    .main-visual { min-height: 400px; height: 40vh; background-size: 220%;/* モバイルでは少し高さを抑える */ }
+    .hero-content h1 { font-size: 1.8rem; margin: 10px 0px; }
+    .hero-content .tagline { font-size: 1.2rem; margin-bottom: 15px;}
+    .hero-content .merger-message { font-size: 0.95rem; padding: 12px 18px; }
+        /* --- 5. フッターの修正 --- */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+    .footer-col { width: 80%; margin-bottom: 0; }
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
+    .footer-col h4 { margin-bottom: 10px; }
+    .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .footer-col li { margin-bottom: 0; }
+    .faq-container { width: 300px; }
+    
 }
 </style>
 </head>
@@ -279,7 +290,7 @@ footer {
 
 <section class="hero">
   <h1>よくある質問</h1>
-  <p>お客様から寄せられるご質問にお答えします。</p>
+  <p>お客様から寄せられる<br class="sp-only">ご質問にお答えします。</p>
 </section>
 
 <section class="faq-container">
@@ -287,7 +298,7 @@ footer {
   <div class="faq-item">
     <div class="faq-question">Skylinkシステムとは何ですか？</div>
     <div class="faq-answer">
-      Skylinkは、気象・空域データを解析し最適な航路を自動提案するAIシステムです。<br>
+      Skylinkは、気象・空域データを解析し最適な航路を自動提案するAIシステムです。<br><br class="sp-only">
       操縦士を補助し、ヒューマンエラーを防止する目的で導入されました。
     </div>
   </div>
@@ -295,7 +306,7 @@ footer {
   <div class="faq-item">
     <div class="faq-question">オリオン900型機とはどのような機体ですか？</div>
     <div class="faq-answer">
-      アストレオン社製の次世代機であり、AI航法システム「Skylink」を搭載した最新鋭の機体です。<br>
+      アストレオン社製の次世代機であり、AI航法システム「Skylink」を搭載した最新鋭の機体です。<br><br class="sp-only">
       燃費性能・安全性・快適性を兼ね備え、環境負荷の少ない運航を実現しています。
     </div>
   </div>
@@ -318,7 +329,7 @@ footer {
   <div class="faq-item">
     <div class="faq-question">安全性についてどのような取り組みをしていますか？</div>
     <div class="faq-answer">
-      ソレイユ航空では、運航監査室を新設し、全ての運航データをAIと人間の双方で監査しています。<br>
+      ソレイユ航空では、運航監査室を新設し、全ての運航データをAIと人間の双方で監査しています。<br><br class="sp-only">
       また、定期的に安全教育・訓練を実施し、安全文化の浸透を徹底しています。
     </div>
   </div>
@@ -327,7 +338,7 @@ footer {
     <div class="faq-question">機内で利用できるサービスを教えてください。</div>
     <div class="faq-answer">
       機内では無料Wi-Fiサービスをはじめ、ソレイユシネマ（機内エンターテインメント）、
-      国産食材を使用した機内食などをご用意しております。<br>
+      国産食材を使用した機内食などをご用意しております。<br><br class="sp-only">
       詳しくは「機内サービス」ページをご覧ください。
     </div>
   </div>
@@ -336,7 +347,7 @@ footer {
     <div class="faq-question">液体物の持ち込み制限は？</div>
     <div class="faq-answer">
       国際線の場合、100ml以下の容器に入れ、1リットル以下のジッパー付き透明プラスチック袋に収める必要があります。医薬品やベビーフードなどは例外規定があります。
-      <br>詳しくは「手荷物案内」ページをご覧ください。
+      <br><br class="sp-only">詳しくは「手荷物案内」ページをご覧ください。
     </div>
   </div>
 
@@ -344,7 +355,7 @@ footer {
     <div class="faq-question">いつまでに空港でチェックインを済ませる必要がありますか？</div>
     <div class="faq-answer">
       国際線は出発時刻の2～3時間前まで、国内線は30分～1時間前までを推奨しております。オンラインチェックインが利用可能です。
-      <br>繁忙期はさらに早めの到着をお勧めします。
+      <br><br class="sp-only">繁忙期はさらに早めの到着をお勧めします。
     </div>
   </div>
 
@@ -352,14 +363,14 @@ footer {
     <div class="faq-question">フライトが遅延・欠航した場合の対応は？</div>
     <div class="faq-answer">
       フライトの遅延・欠航が発生した場合、速やかにお客様に通知し、代替便の手配や払い戻しなどの対応を行います。
-      <br>詳細は「運航状況」ページをご覧ください。
+      <br><br class="sp-only">詳細は「運航状況」ページをご覧ください。
     </div>
   </div>
 
   <div class="faq-item">
     <div class="faq-question">会社の所在地を教えてください。</div>
     <div class="faq-answer">
-      本社所在地：東京都大田区羽田空港3丁目（東京国際空港内）<br>
+      本社所在地：東京都大田区羽田空港3丁目（東京国際空港内）<br><br class="sp-only">
       ハブ空港：東京国際空港（羽田空港）
     </div>
   </div>

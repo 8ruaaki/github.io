@@ -104,22 +104,6 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* モバイル時の縦並びやレイアウト変化を禁止 */
-@media (max-width: 768px) {
-  header {
-    position: fixed;
-  }
-
-  .nav-container {
-    flex-direction: row;
-  }
-
-  nav ul {
-    flex-direction: row;
-    gap: 32px;
-  }
-}
-
 /* ===== セクション ===== */
 .sakura-section {
   padding: 50px 6%;
@@ -143,8 +127,6 @@ nav a:hover::after {
 .sakura-section strong {
   color: var(--primary);
 }
-
-
 
 /* ===== Footer ===== */
 footer {
@@ -227,18 +209,41 @@ footer {
   background: linear-gradient(135deg, var(--dark), var(--primary));
 }
 
+.sp-only{
+  display: none;
+}
+
 /* ===== Animation ===== */
 @keyframes fadeUp {
   0% { opacity: 0; transform: translateY(30px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+@media (max-width: 414px) {
+
+    .sp-only{
+    display: block;
+  }
+
+  .pc-only{
+    display: none;
+  }
+/* --- 1. ヘッダー/ナビゲーションの修正 --- */
+    .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
+
+    .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+    .footer-col { width: 80%; margin-bottom: 0; }
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
+    .footer-col h4 { margin-bottom: 10px; }
+    .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .footer-col li { margin-bottom: 0; }
+    .sakura-section { width: 300px; margin: 0px 20px; }
+    .sakura-section h2 { font-size: 1.5rem; overflow-x: hidden;}
+    .sakura-section p { width: 300px; overflow-x: hidden; white-space: normal;}
+    .back-home { margin-right: 20px; margin-top: 0px;}
 }
 </style>
 </head>
@@ -263,7 +268,7 @@ footer {
 
 <main>
   <section class="sakura-section">
-    <h2>さくら航空買収計画に関する重要なお知らせ</h2>
+    <h2>さくら航空買収計画に<br class="sp-only">関する重要なお知らせ</h2>
     <div class="date">掲載日: 20XX年XX月XX日</div>
 
     <p>
@@ -280,7 +285,7 @@ footer {
       <br>※赤字が見込まれる地方路線は、統合・削減によって利益を最大化する方針です。
     </p>
   </section>
-  <div style="text-align:left;">
+  <div style="text-align: center;">
       <a href="news.html" class="back-home">ニュース一覧に戻る</a>
     </div>
 </main>
