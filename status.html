@@ -105,24 +105,6 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* モバイル時の縦並びやレイアウト変化を禁止 */
-@media (max-width: 768px) {
-  header {
-    position: fixed;
-  }
-
-  .nav-container {
-    flex-direction: row;
-  }
-
-  nav ul {
-    flex-direction: row;
-    gap: 32px;
-  }
-}
-
-
-
 /* ===== Hero Section ===== */
 .main-visual {
   background: url('Gemini_Generated_Image_emngq6emngq6emng.png') center/cover no-repeat;
@@ -396,6 +378,10 @@ footer {
   color: #999;
 }
 
+.sp-only{
+  display: none;
+}
+
 /* ===== Animation ===== */
 @keyframes fadeUp {
   0% { opacity: 0; transform: translateY(30px); }
@@ -404,11 +390,34 @@ footer {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+    .sp-only{
+    display: block;
+  }
+
+  .pc-only{
+    display: none;
+  }
+/* --- 1. ヘッダー/ナビゲーションの修正 --- */
+    .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
+
+    /* --- 2. ヒーローセクションの修正 --- */
+    .main-visual { min-height: 400px; height: 60vh;/* モバイルでは少し高さを抑える */ }
+    .hero-content h1 { font-size: 1.8rem; margin: 10px 0px; }
+    .hero-content .tagline { font-size: 1.2rem; margin-bottom: 15px;}
+    .hero-content .merger-message { font-size: 0.95rem; padding: 12px 18px; }
+        /* --- 5. フッターの修正 --- */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+    .footer-col { width: 80%; margin-bottom: 0; }
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
+    .footer-col h4 { margin-bottom: 10px; }
+    .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .footer-col li { margin-bottom: 0; }
+
 }
+
 </style>
 </head>
 <body>
@@ -440,10 +449,10 @@ footer {
 </section>
 
 <div class="container">
-    <h1>Soleil航空 運行状況</h1>
+    <h1>Soleil航空<br class="sp-only"> 運行状況</h1>
 
     <div class="search-section">
-      <label for="flight-number">便名検索 (例: 101 のように数字のみ):</label>
+      <label for="flight-number">便名検索<br class="sp-only"> (例: 101 のように数字のみ):</label>
       <input type="number" id="flight-number" placeholder="便名を入力">
       <button onclick="searchFlight()">検索</button>
     </div>
@@ -455,7 +464,7 @@ footer {
         <thead>
           <tr>
             <th>便名</th>
-            <th>空港</th>
+            <th>区間</th>
             <th>定刻</th>
             <th>状況</th>
             <th>搭乗口</th>

@@ -94,22 +94,6 @@ nav a:hover::after {
   width: 100%;
 }
 
-/* モバイル時の縦並びやレイアウト変化を禁止 */
-@media (max-width: 768px) {
-  header {
-    position: fixed;
-  }
-
-  .nav-container {
-    flex-direction: row;
-  }
-
-  nav ul {
-    flex-direction: row;
-    gap: 32px;
-  }
-}
-
     main {
       max-width: 1000px;
       margin: 60px auto;
@@ -176,6 +160,7 @@ nav a:hover::after {
       text-align: left;
       padding: 10px;
       border-bottom: 1px solid #ddd;
+      max-height: 30px;
     }
 
   /* ===== Footer ===== */
@@ -265,14 +250,110 @@ footer {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .hero-content h1 { font-size: 3rem; }
-  .hero-content .tagline { font-size: 1.3rem; }
-  .booking-button { font-size: 1.1rem; padding: 12px 35px; }
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
+/* ======================================= */
+/* 📱 モバイル向け最適化 (画面幅768px以下) */
+/* ======================================= */
+@media screen and (max-width: 768px) {
+    .sp-only{
+    display: block;
+  }
+
+  .pc-only{
+    display: none;
+  }
+/* --- 1. ヘッダー/ナビゲーションの修正 --- */
+    .nav-container { flex-direction: column; padding: 12px 15px; white-space: normal; }
+    .logo a { font-size: 1.5rem; margin-bottom: 10px; display: inline-block; text-align: center;}
+     nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
+     nav a { font-size: 0.85rem; padding: 5px 10px; }
+
+    /* --- 2. ヒーローセクションの修正 --- */
+    .main-visual { min-height: 400px; height: 60vh;/* モバイルでは少し高さを抑える */ }
+    .hero-content h1 { font-size: 1.8rem; margin: 10px 0px; }
+    .hero-content .tagline { font-size: 1.2rem; margin-bottom: 15px;}
+    .hero-content .merger-message { font-size: 0.95rem; padding: 12px 18px; }
+        /* --- 5. フッターの修正 --- */
+    .footer-content { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+    .footer-col { width: 80%; margin-bottom: 0; }
+    .footer-col a { display: inline; margin: 0 8px; } /*モバイルで横並びにする*/
+    .footer-col h4 { margin-bottom: 10px; }
+    .footer-col ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .footer-col li { margin-bottom: 0; }
+
+
+
+  /* Mainコンテナのパディング調整 */
+  main {
+    margin: 40px auto;
+    padding: 0 4%; /* 左右の余白を少し調整 */
+    width: 340px;
+  }
+
+  .company-info{
+    width: 300px;
+  }
+  /* 会社概要・代表挨拶セクション */
+  .company-info, .profile {
+    padding: 20px; /* パディングを小さく */
+  }
+
+  /* 会社情報テーブルのモバイル対応 */
+  .company-info table {
+    display: block;
+  }
+  /* th/tdをブロック化し、縦に積む */
+  .company-info tr {
+    display: block;
+    border-bottom: none; /* trの区切りをなくす */
+  }
+  .company-info th, .company-info td {
+    display: block;
+    width: 100%;
+    padding: 8px 0; /* 詰め気味に */
+    border-bottom: none;
+  }
+  /* thとtdをセットで見せるためのスタイル */
+  .company-info tr {
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee; /* 情報ごとの区切りを強調 */
+  }
+  .company-info tr:last-child {
+      border-bottom: none;
+  }
+  .company-info th {
+      font-weight: bold;
+      color: #333; /* 項目名を強調 */
+  }
+
+
+  /* 代表挨拶セクションのモバイル対応 */
+  .greeting {
+    flex-direction: column; /* 画像とテキストを縦に積む */
+    gap: 20px; /* 縦方向の隙間を調整 */
+    align-items: center; /* 中央寄せ */
+    text-align: center;
+    width: 300px;
+  }
+
+  .greeting img {
+    margin: 0 auto; /* 画像を中央寄せ */
+  }
+
+  .greeting .text {
+    min-width: auto;
+    text-align: left; /* テキストは左揃えに戻す */
+    width: 100%;
+  }
+
+  
+  .back-home {
+      margin-left: 60px;
+      display: block;
+      width: fit-content;
+  }
 }
-    
+
   </style>
 </head>
 <body>
@@ -304,7 +385,7 @@ footer {
           <tr><th>設立</th><td>2023年4月1日</td></tr>
           <tr><th>代表取締役社長</th><td>永田 隆之（Takayuki Nagata）</td></tr>
           <tr><th>取締役副社長</th><td>黒崎 剛（Takeshi Kurosaki）</td></tr>
-          <tr><th>事業内容</th><td>国内・国際航空運送事業、航空AIシステム開発・運用</td></tr>
+          <tr><th>事業内容</th><td>国内・国際航空運送事業、航空AIシステムの運用</td></tr>
           <tr><th>ハブ空港</th><td>東京国際空港（羽田）</td></tr>
           <tr><th>モットー</th><td>AIによるコストカットと人為的ミスの削減</td></tr>
         </table>
