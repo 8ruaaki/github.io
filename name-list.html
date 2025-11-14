@@ -83,22 +83,22 @@
             white-space: nowrap;
         }
 
-    .nav a {
-        color: var(--text-on-dark);
-        text-transform: uppercase;
-        font-size: 0.9em;
-        font-weight: 500;
-        margin-left: 30px;
-        padding: 0 5px 5px;
-        letter-spacing: 0.5px;
-        flex-shrink: 0;
-        border-bottom: 3px solid transparent; /* ホバー時と同じ太さで透明に設定 */
-    }
+        .nav a {
+            color: var(--text-on-dark);
+            text-transform: uppercase;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-left: 30px;
+            padding: 0 5px 5px;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            border-bottom: 3px solid transparent; /* ホバー時と同じ太さで透明に設定 */
+        }
 
-    .nav a:hover {
-        color: #fff;
-        border-bottom-color: var(--primary);
-    }
+        .nav a:hover {
+            color: #fff;
+            border-bottom-color: var(--primary);
+        }
 
 
         /* --- 役員名簿固有のスタイル --- */
@@ -200,6 +200,85 @@
             margin-bottom: 5px;
             font-size: 0.9em;
         }
+
+        .sp-only{
+            display:none;
+        }
+
+        @media screen and (max-width: 768px) {
+            /* 1. 基本レイアウトの調整 */
+            .sp-only {
+                display: block;
+            }
+
+            .pc-only {
+                display: none;
+            }
+
+            .header {
+                height: auto;
+                flex-direction: row;
+                /* 横並びに戻す */
+                flex-wrap: wrap;
+                /* 要素が多い場合に折り返す */
+                padding: 10px 20px;
+                position: static;
+                /* 中央寄せの代わりに、配置を調整 */
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            body {
+                padding-top: 0;
+            }
+
+            .header h1 {
+                font-size: 1.2em;
+                margin: 10px auto;
+            }
+
+            .nav {
+                display: flex;
+                flex-direction: row;
+                /* ✅ 横並びに戻す */
+                width: 100%;
+                /* フル幅を維持 */
+                justify-content: center;
+                /* リンクを中央に集める */
+                text-align: center;
+                padding-bottom: 5px;
+                /* パディングを少し減らす */
+                flex-wrap: wrap;
+            }
+
+            .nav a {
+                margin: 0 10px;
+                /* ✅ 左右のマージンに変更 */
+                padding: 5px 0;
+                border-bottom: none;
+                border-top: none;
+                /* ✅ 縦積み用のボーダーを削除 */
+                font-size: 0.8em;
+                white-space: nowrap;
+                /* 折り返さない */
+            }
+
+            .nav a:first-child {
+                border-top: none;
+            }
+
+            .container {
+                height: 100vh;
+                padding: 0 10px 10px;
+            }
+
+            .member-grid{
+                width: 350px;
+            }
+
+        }
+
+
     </style>
 </head>
 <body>
@@ -217,7 +296,7 @@
     <div class="container">
         
         <h1 style="color: #fff; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 30px;">
-            役員名簿 (Executive Board)
+            役員名簿<br class="sp-only"> (Executive Board)
         </h1>
 
         <div class="member-grid">

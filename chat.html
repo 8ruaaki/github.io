@@ -4,403 +4,577 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soleil Air - 社内チャット</title>
-<style>
-    /* CSSカスタムプロパティ (共通のテーマを引き継ぎ) */
-    :root {
-        --primary: #FF9933;
-        --dark: #CC7A26;
-        --bg-dark: #222;
-        --bg-card: #2c2c2c;
-        --bg-chat: #1c1c1c;       /* チャットエリアの背景をさらに暗く */
-        --text-on-dark: #e0e0e0;
-        --text-muted: #999;
-        --border-color: #444;
-        --radius: 4px;
-        --shadow: rgba(0, 0, 0, 0.4); 
-        --transition: all 0.2s ease-out;
-        font-family: "Noto Sans JP", "メイリオ", sans-serif;
-    }
+    <style>
+        /* CSSカスタムプロパティ (共通のテーマを引き継ぎ) */
+        :root {
+            --primary: #FF9933;
+            --dark: #CC7A26;
+            --bg-dark: #222;
+            --bg-card: #2c2c2c;
+            --bg-chat: #1c1c1c;
+            /* チャットエリアの背景をさらに暗く */
+            --text-on-dark: #e0e0e0;
+            --text-muted: #999;
+            --border-color: #444;
+            --radius: 4px;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --transition: all 0.2s ease-out;
+            font-family: "Noto Sans JP", "メイリオ", sans-serif;
+        }
 
-    /* リセットと基本スタイル */
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+        /* リセットと基本スタイル */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-        background-color: var(--bg-dark);
-        color: var(--text-on-dark);
-        line-height: 1.6;
-        padding-top: 60px; 
-        height: 100vh; /* ★ビューポートの高さいっぱいを使用 */
-        overflow: hidden; /* ★全体にスクロールバーが出ないようにする */
-    }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-on-dark);
+            line-height: 1.6;
+            padding-top: 60px;
+            height: 100vh;
+            /* ★ビューポートの高さいっぱいを使用 */
+            overflow: hidden;
+            /* ★全体にスクロールバーが出ないようにする */
+        }
 
-    a {
-        color: var(--text-on-dark);
-        text-decoration: none;
-        transition: color var(--transition);
-    }
+        a {
+            color: var(--text-on-dark);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
 
-    a:hover {
-        color: var(--primary);
-    }
+        a:hover {
+            color: var(--primary);
+        }
 
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px 20px;
-        height: calc(100% - 20px); /* ★bodyの高さ(100vh - 60px)から下部パディング20pxを引く */
-        overflow-x: auto;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 20px;
+            height: calc(100% - 20px);
+            /* ★bodyの高さ(100vh - 60px)から下部パディング20pxを引く */
+            overflow-x: auto;
+        }
 
-    /* ヘッダー (固定ナビゲーションバー) */
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: var(--bg-dark);
-        border-bottom: 2px solid var(--primary);
-        padding: 0 40px;
-        height: 60px; /* ★高さを固定 */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 1000;
-        box-shadow: 0 4px 10px var(--shadow);
-    }
+        /* ヘッダー (固定ナビゲーションバー) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-dark);
+            border-bottom: 2px solid var(--primary);
+            padding: 0 40px;
+            height: 60px;
+            /* ★高さを固定 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
 
-    /* ヘッダー h1 (ロゴ) */
-    .header h1 {
-        font-size: 1.3em;
-        font-weight: 700;
-        color: var(--primary);
-        letter-spacing: 1px;
-        white-space: nowrap;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
+        /* ヘッダー h1 (ロゴ) */
+        .header h1 {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
 
-    .nav {
-        display: flex; /* ナビゲーションをフレックスコンテナにする */
-        overflow: hidden; /* ★はみ出た要素を非表示にする */
-        white-space: nowrap; /* ★要素を強制的に一行に保つ */
-    }
+        .nav {
+            display: flex;
+            /* ナビゲーションをフレックスコンテナにする */
+            overflow: hidden;
+            /* ★はみ出た要素を非表示にする */
+            white-space: nowrap;
+            /* ★要素を強制的に一行に保つ */
+        }
 
-    .nav a {
-        color: var(--text-on-dark);
-        text-transform: uppercase;
-        font-size: 0.9em;
-        font-weight: 500;
-        margin-left: 30px;
-        padding: 0 5px 5px;
-        letter-spacing: 0.5px;
-        flex-shrink: 0;
-        border-bottom: 3px solid transparent; /* ホバー時と同じ太さで透明に設定 */
-    }
+        .nav a {
+            color: var(--text-on-dark);
+            text-transform: uppercase;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-left: 30px;
+            padding: 0 5px 5px;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            border-bottom: 3px solid transparent;
+            /* ホバー時と同じ太さで透明に設定 */
+        }
 
-    .nav a:hover {
-        color: #fff;
-        border-bottom-color: var(--primary);
-    }
-
-    
-    /* チャットレイアウト */
-    .chat-layout {
-        display: flex;
-        height: 100%; /* ★containerの高さいっぱいを使用 */
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: 0 8px 20px var(--shadow);
-        min-width: 800px;
-    }
-
-    /* ルームリスト (左側) */
-    .room-list {
-        flex-basis: 300px; /* 幅を固定 */
-        background-color: var(--bg-card);
-        border-right: 1px solid var(--border-color);
-        padding: 10px 0;
-        overflow-y: auto; /* ★ルームリスト内でスクロール */
-        
-    }
-
-    .room-list h2 {
-        font-size: 1.2em;
-        padding: 10px 20px;
-        color: var(--primary);
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: 10px;
-        white-space: nowrap;
-    }
-
-    /* ルームリスト内のセクション見出し */
-    .room-section-title {
-        color: var(--text-muted);
-        font-size: 0.85em;
-        font-weight: 600;
-        padding: 10px 20px 5px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-top: 1px solid var(--border-color);
-        margin-top: 10px;
-        white-space: nowrap;
-    }
-
-    .room-section-title:first-child {
-        border-top: none;
-        margin-top: 0;
-    }
-
-    /* ルームアイテム */
-    .room-item {
-        /* ... 既存のスタイル ... */
-        height: 45px; /* ★高さを固定し、中身が簡素化されるため padding を調整 */
-        padding: 12px 20px;
-        display: block; /* 中の要素がなくなるため block に戻す */
-        border-bottom: 1px solid var(--border-color);
-        cursor: pointer;
-        width: 100%; 
-        white-space: nowrap; 
-        overflow: hidden; 
-        text-overflow: ellipsis;
-        width: 100%; 
-    white-space: nowrap; 
-    overflow: hidden; /* ★はみ出しを隠す */
-    text-overflow: ellipsis; /* ★省略記号(...)を表示 */
-    }
-
-    .room-item:hover {
-        background-color: #3a3a3a;
-    }
-
-    .room-item.active {
-        background-color: var(--dark);
-        color: #fff;
-        border-left: 3px solid var(--primary);
-    }
-
-    .room-name {
-        font-weight: 500;
-    }
-
-    /* ★削除対象のスタイルを無効化/削除 */
-    .room-last-message {
-        display: none; /* ★完全に非表示にする */
-    }
-
-/* 右ペイン（チャット領域）が基準になるようにする */
-.chat-layout {
-  display: flex;
-  height: 100%;
-  position: relative; /* 安定化（必要なら） */
-}
-
-/* ここを相対基準にしておく */
-.chat-area {
-  flex-grow: 1;
-  background-color: var(--bg-chat);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative; /* ここが .chat-input の基準になります */
-  overflow: scroll;   /* 内部でスクロールさせるために隠す */
-}
+        .nav a:hover {
+            color: #fff;
+            border-bottom-color: var(--primary);
+        }
 
 
+        /* チャットレイアウト */
+        .chat-layout {
+            display: flex;
+            height: 100%;
+            /* ★containerの高さいっぱいを使用 */
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 8px 20px var(--shadow);
+            min-width: 800px;
+        }
 
-    /* エラーメッセージのスタイル */
-    .network-error {
-        background-color: #a04040; /* 濃い警告色 */
-        color: #fff;
-        text-align: center;
-        padding: 8px 0;
-        font-weight: 500;
-        font-size: 0.9em;
-        display: none; /* ★初期状態では非表示 */
-        position: absolute;
-        top: 60px; /* ヘッダーの下 */
-        left: 0;
-        width: 100%;
-        z-index: 990;
-        border-bottom: 2px solid #ff0000;
-    }
+        /* ルームリスト (左側) */
+        .room-list {
+            flex-basis: 300px;
+            /* 幅を固定 */
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: 10px 0;
+            overflow-y: auto;
+            /* ★ルームリスト内でスクロール */
 
-    .chat-header {
-        background-color: var(--bg-card);
-        padding: 15px 20px;
-        border-bottom: 1px solid var(--border-color);
-        font-weight: 600;
-        font-size: 1.1em;
-        flex-shrink: 0; /* ヘッダーは縮小しない */
-    }
+        }
 
-/* メッセージ履歴はチャット領域内でスクロール */
-.message-history {
-  padding: 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  /* 下に入力欄の分だけ余白を確保（入力欄高さに合わせて調整） */
-  padding-bottom: 88px; /* ← 入力欄の高さ + 余白 */
-  box-sizing: border-box;
-  height: 100%; /* flexで伸縮しないなら明示しても可 */
-}
+        .room-list h2 {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            white-space: nowrap;
+        }
 
-    .message-item {
-        margin-bottom: 15px;
-        display: flex;
-        justify-content: flex-start;
-        width: 100%; /* 親要素の幅を確定 */
-    }
+        /* ルームリスト内のセクション見出し */
+        .room-section-title {
+            color: var(--text-muted);
+            font-size: 0.85em;
+            font-weight: 600;
+            padding: 10px 20px 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+            white-space: nowrap;
+        }
 
-    /* メッセージコンテンツ (吹き出し自体) */
-    .message-content {
-        background-color: #3a3a3a;
-        padding: 10px 15px;
-        border-radius: 12px;
-        max-width: 70%; 
-        position: relative;
-        
-        white-space: normal;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        
-        flex-shrink: 0; /* ★吹き出しが親要素の幅の変化によって縮小しないようにする */
-        width: 400px; /* ★仮の固定幅を設定して文字の動きを抑制 */
-    }
+        .room-section-title:first-child {
+            border-top: none;
+            margin-top: 0;
+        }
 
-    /* 受信メッセージ */
-    .message-item.received .message-content {
-        border-bottom-left-radius: 2px;
-        max-width: 650px; /* ★ピクセル値で仮固定により文字の動きを抑制 */
-    }
+        /* ルームアイテム */
+        .room-item {
+            /* ... 既存のスタイル ... */
+            height: 45px;
+            /* ★高さを固定し、中身が簡素化されるため padding を調整 */
+            padding: 12px 20px;
+            display: block;
+            /* 中の要素がなくなるため block に戻す */
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            /* ★はみ出しを隠す */
+            text-overflow: ellipsis;
+            /* ★省略記号(...)を表示 */
+        }
 
-    /* 送信メッセージ */
-    .message-item.sent {
-        justify-content: flex-end;
-        width: 100%; 
-    }
+        .room-item:hover {
+            background-color: #3a3a3a;
+        }
 
-    .message-item.sent .message-content {
-        background-color: var(--primary);
-        color: #222;
-        border-bottom-right-radius: 2px;
-        max-width: 650px; /* ★ピクセル値で仮固定により文字の動きを抑制 */
-    }
+        .room-item.active {
+            background-color: var(--dark);
+            color: #fff;
+            border-left: 3px solid var(--primary);
+        }
 
-    .message-author {
-        font-size: 0.85em;
-        font-weight: 500;
-        color: var(--primary);
-        margin-bottom: 3px;
-        display: block;
-    }
+        .room-name {
+            font-weight: 500;
+        }
 
-    .message-time {
-        font-size: 0.7em;
-        color: var(--text-muted);
-        margin-top: 5px;
-        text-align: right;
-        display: block;
-    }
+        /* ★削除対象のスタイルを無効化/削除 */
+        .room-last-message {
+            display: none;
+            /* ★完全に非表示にする */
+        }
 
-.chat-input {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: flex-end; /* ✅ 全体を右寄せ */
-  align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
-  background-color: var(--bg-card);
-  border-top: 1px solid var(--border-color);
-  z-index: 20;
-  box-sizing: border-box;
-  min-height: 56px;
-}
+        /* 右ペイン（チャット領域）が基準になるようにする */
+        .chat-layout {
+            display: flex;
+            height: 100%;
+            position: relative;
+            /* 安定化（必要なら） */
+        }
 
-.chat-input textarea {
-  width: 60%; /* ✅ 必要に応じて調整（例：全体の40%） */
-  height: 50px;
-  resize: none;
-}
+        /* ここを相対基準にしておく */
+        .chat-area {
+            flex-grow: 1;
+            background-color: var(--bg-chat);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            /* ここが .chat-input の基準になります */
+            overflow: scroll;
+            /* 内部でスクロールさせるために隠す */
+        }
 
-    .chat-input button {
-        background-color: var(--primary);
-        color: #222;
-        border: none;
-        padding: 0 20px;
-        border-radius: var(--radius);
-        font-weight: bold;
-        cursor: pointer;
-        transition: var(--transition);
-        flex-shrink: 0; /* ボタンは縮小しない */
-        height: 50px;
-    }
 
-    .chat-input button:hover {
-        background-color: var(--dark);
-        color: #fff;
-    }
-</style>
+        /* エラーメッセージのスタイル */
+        .network-error {
+            background-color: #a04040;
+            /* 濃い警告色 */
+            color: #fff;
+            text-align: center;
+            padding: 8px 0;
+            font-weight: 500;
+            font-size: 0.9em;
+            display: none;
+            /* ★初期状態では非表示 */
+            position: absolute;
+            top: 60px;
+            /* ヘッダーの下 */
+            left: 0;
+            width: 100%;
+            z-index: 990;
+            border-bottom: 2px solid #ff0000;
+        }
+
+        .chat-header {
+            background-color: var(--bg-card);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 1.1em;
+            flex-shrink: 0;
+            /* ヘッダーは縮小しない */
+        }
+
+        /* メッセージ履歴はチャット領域内でスクロール */
+        .message-history {
+            padding: 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            /* 下に入力欄の分だけ余白を確保（入力欄高さに合わせて調整） */
+            padding-bottom: 88px;
+            /* ← 入力欄の高さ + 余白 */
+            box-sizing: border-box;
+            height: 100%;
+            /* flexで伸縮しないなら明示しても可 */
+        }
+
+        .message-item {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+            /* 親要素の幅を確定 */
+        }
+
+        /* メッセージコンテンツ (吹き出し自体) */
+        .message-content {
+            background-color: #3a3a3a;
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 70%;
+            position: relative;
+
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: break-word;
+
+            flex-shrink: 0;
+            /* ★吹き出しが親要素の幅の変化によって縮小しないようにする */
+            width: 400px;
+            /* ★仮の固定幅を設定して文字の動きを抑制 */
+        }
+
+        /* 受信メッセージ */
+        .message-item.received .message-content {
+            border-bottom-left-radius: 2px;
+            max-width: 650px;
+            /* ★ピクセル値で仮固定により文字の動きを抑制 */
+        }
+
+        /* 送信メッセージ */
+        .message-item.sent {
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .message-item.sent .message-content {
+            background-color: var(--primary);
+            color: #222;
+            border-bottom-right-radius: 2px;
+            max-width: 650px;
+            /* ★ピクセル値で仮固定により文字の動きを抑制 */
+        }
+
+        .message-author {
+            font-size: 0.85em;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        .message-time {
+            font-size: 0.7em;
+            color: var(--text-muted);
+            margin-top: 5px;
+            text-align: right;
+            display: block;
+        }
+
+        .chat-input {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: flex-end;
+            /* ✅ 全体を右寄せ */
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            z-index: 20;
+            box-sizing: border-box;
+            min-height: 56px;
+        }
+
+        .chat-input textarea {
+            width: 60%;
+            /* ✅ 必要に応じて調整（例：全体の40%） */
+            height: 50px;
+            resize: none;
+        }
+
+        .chat-input button {
+            background-color: var(--primary);
+            color: #222;
+            border: none;
+            padding: 0 20px;
+            border-radius: var(--radius);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            /* ボタンは縮小しない */
+            height: 50px;
+        }
+
+        .chat-input button:hover {
+            background-color: var(--dark);
+            color: #fff;
+        }
+
+         .room-list-toggle-btn {
+              display: none;
+            }
+
+        /* =======================================
+        ✅ モバイル対応 (768px以下)
+        ======================================= */
+        @media screen and (max-width: 768px) {
+            /* 1. 基本レイアウトの調整 */
+            .sp-only {
+                display: block;
+            }
+
+            .pc-only {
+                display: none;
+            }
+
+            .header {
+                height: auto;
+                flex-direction: row;
+                /* 横並びに戻す */
+                flex-wrap: wrap;
+                /* 要素が多い場合に折り返す */
+                padding: 10px 20px;
+                position: static;
+                /* 中央寄せの代わりに、配置を調整 */
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            body {
+                padding-top: 0;
+            }
+
+            .header h1 {
+                margin-bottom: 10px;
+                font-size: 1.2em;
+                margin: auto;
+            }
+
+            .nav {
+                display: flex;
+                flex-direction: row;
+                /* ✅ 横並びに戻す */
+                width: 100%;
+                /* フル幅を維持 */
+                justify-content: center;
+                /* リンクを中央に集める */
+                text-align: center;
+                padding-bottom: 5px;
+                /* パディングを少し減らす */
+                flex-wrap: wrap;
+            }
+
+            .nav a {
+                margin: 0 10px;
+                /* ✅ 左右のマージンに変更 */
+                padding: 5px 0;
+                border-bottom: none;
+                border-top: none;
+                /* ✅ 縦積み用のボーダーを削除 */
+                font-size: 0.8em;
+                white-space: nowrap;
+                /* 折り返さない */
+            }
+
+            .nav a:first-child {
+                border-top: none;
+            }
+            .container {
+                height: 100vh;
+                padding: 0 10px 10px;
+            }
+
+            /* 2. チャットレイアウトの調整 */
+            /* ✅ 【追加】ルームリスト切り替えボタンのスタイル */
+            .room-list-toggle-btn {
+                background-color: var(--primary);
+                color: var(--bg-dark);
+                border: none;
+                padding: 5px 15px;
+                border-radius: var(--radius);
+                font-weight: bold;
+                cursor: pointer;
+                font-size: 0.85em;
+                margin-top: 20px;
+                margin-bottom: 10px;
+                /* ナビとの間にスペース */
+                align-self: center;
+                /* 左寄せ */
+                margin: 10px 1000px;
+            }
+
+            /* 2. チャットレイアウトの調整 */
+            .chat-layout {
+                flex-direction: column;
+                /* 縦積み */
+                min-width: unset;
+                /* 最小幅の制限を解除 */
+                height: 100%;
+                width: 100%;
+            }
+
+            /* ✅ 【変更】ルームリストをモバイルで初期非表示（絶対配置でチャットエリアの上に重ねる） */
+            .room-list {
+                /* flex-basis: 300px; 削除 */
+                position: absolute;
+                /* 親要素 .chat-layout が相対座標を持つ必要があります */
+                top: 0;
+                left: -100%;
+                /* 初期状態で左外に完全に隠す */
+                width: 100%;
+                /* 全画面幅（または親の幅） */
+                height: 100%;
+                /* 親の高さに合わせる */
+                z-index: 100;
+                /* チャットエリアより手前に表示 */
+                transition: left 0.3s ease-in-out;
+                /* トランジションでアニメーション */
+                border-right: none;
+            }
+
+            /* ✅ 【追加】リスト表示時のクラス */
+            .chat-layout.room-list-visible .room-list {
+                left: 0;
+                /* 画面内に表示 */
+            }
+
+            /* ✅ 【変更】チャットエリアは常にフル幅 */
+            .chat-area {
+                flex-grow: 1;
+                width: 100%;
+            }
+
+            .message-content {
+                width: 250px;
+            }
+
+        }
+    </style>
 </head>
 <body>
 
- <header class="header">
-    <h1>SOLEIL EXECUTIVE PORTAL</h1>
-    <nav class="nav">
-        <a href="name-list.html">役員名簿</a>
-        <a href="chat.html">社内チャット</a> 
-        <a href="soleil-portal.html" class="active">社内掲示板</a>
-        
-    </nav>
-</header>
+    <header class="header">
+        <h1>SOLEIL EXECUTIVE PORTAL</h1>
+        <nav class="nav">
+            <a href="name-list.html">役員名簿</a>
+            <a href="chat.html">社内チャット</a>
+            <a href="soleil-portal.html" class="active">社内掲示板</a>
+            <button id="toggle-room-list" class="sp-only room-list-toggle-btn">ルームリストを表示</button>
+
+        </nav>
+    </header>
 
     <div class="container">
         <div class="chat-layout">
-            
+
             <aside class="room-list">
-                
+
                 <h2>チャットルーム</h2>
 
-                    <div class="room-section-title">個人チャット</div>
-                        <a href="#" class="room-item" data-room-id="nagata" data-room-name="永田 隆之（代表取締役社長 CEO）">
-                             <div class="room-name">永田 隆之（代表取締役社長 CEO）</div>
-    
-                        </a>
-                        <a href="#" class="room-item active" data-room-id="sato" data-room-name="中山 遥瑛(専務取締役 CMO)">
-                            <div class="room-name">中山 遥瑛(専務取締役 CMO)</div>
-    
-                        </a>
+                <div class="room-section-title">個人チャット</div>
+                <a href="#" class="room-item" data-room-id="nagata" data-room-name="永田 隆之（代表取締役社長 CEO）">
+                    <div class="room-name">永田 隆之（代表取締役社長 CEO）</div>
 
-                    <div class="room-section-title">グループチャット</div>
-                        <a href="#" class="room-item" data-room-id="all" data-room-name="全社員向け：全体通知">
-                            <div class="room-name">全社員向け：全体通知</div>
-    
-                        </a>
-                        <a href="#" class="room-item" data-room-id="ca" data-room-name="客室乗務員 (CA) 部門">
-                            <div class="room-name">客室乗務員 (CA) 部門</div>
-    
-                        </a>
-                        <a href="#" class="room-item" data-room-id="pilot" data-room-name="パイロット部門">
-                            <div class="room-name">パイロット部門</div>
-   
-                        </a>
-                        <a href="#" class="room-item" data-room-id="tech" data-room-name="整備・技術部門">
-                            <div class="room-name">整備・技術部門</div>
-   
-                        </a>
+                </a>
+                <a href="#" class="room-item active" data-room-id="sato" data-room-name="中山 遥瑛(専務取締役 CMO)">
+                    <div class="room-name">中山 遥瑛(専務取締役 CMO)</div>
+
+                </a>
+
+                <div class="room-section-title">グループチャット</div>
+                <a href="#" class="room-item" data-room-id="all" data-room-name="全社員向け：全体通知">
+                    <div class="room-name">全社員向け：全体通知</div>
+
+                </a>
+                <a href="#" class="room-item" data-room-id="ca" data-room-name="客室乗務員 (CA) 部門">
+                    <div class="room-name">客室乗務員 (CA) 部門</div>
+
+                </a>
+                <a href="#" class="room-item" data-room-id="pilot" data-room-name="パイロット部門">
+                    <div class="room-name">パイロット部門</div>
+
+                </a>
+                <a href="#" class="room-item" data-room-id="tech" data-room-name="整備・技術部門">
+                    <div class="room-name">整備・技術部門</div>
+
+                </a>
             </aside>
 
             <main class="chat-area">
 
                 <div id="error-message" class="network-error">
-                   
+
                     社内ネットワークに接続してください
                 </div>
 
@@ -409,494 +583,526 @@
 
             </main>
 
-                <div class="chat-input">
-                    <textarea placeholder="永田社長へメッセージを入力"></textarea>
-                    <button>送信</button>
-                </div>
+            <div class="chat-input">
+                <textarea placeholder="永田社長へメッセージを入力"></textarea>
+                <button>送信</button>
+            </div>
         </div>
     </div>
-   
+
 </body>
 
 <script>
-/* -------------------------
-   動的チャット生成 & 挙動
-   ------------------------- */
+    /* -------------------------
+        動的チャット生成 & 挙動
+        ------------------------- */
 
-// 1) プレースホルダー要素を取得（HTMLに <div id="chat-content"></div> を置くこと）
-const chatContent = document.getElementById('chat-content');
-const errorDiv = document.getElementById('error-message');
+    // 1) プレースホルダー要素を取得（HTMLに <div id="chat-content"></div> を置くこと）
+    const chatContent = document.getElementById('chat-content');
+    const errorDiv = document.getElementById('error-message');
 
-// 2) ヘッダーとメッセージ履歴を生成して挿入
-const chatHeaderTitle = document.createElement('div');
-chatHeaderTitle.id = 'chat-header-title';
-chatHeaderTitle.className = 'chat-header';
-// 初期ヘッダー（activeなルームが sato なのでその名前を表示）
-chatHeaderTitle.textContent = '佐藤 翼（上司/部長）';
+    // 2) ヘッダーとメッセージ履歴を生成して挿入
+    const chatHeaderTitle = document.createElement('div');
+    chatHeaderTitle.id = 'chat-header-title';
+    chatHeaderTitle.className = 'chat-header';
+    // 初期ヘッダー（activeなルームが sato なのでその名前を表示）
+    chatHeaderTitle.textContent = '佐藤 翼（上司/部長）';
 
-const messageHistory = document.createElement('div');
-messageHistory.id = 'message-history';
-messageHistory.className = 'message-history';
+    const messageHistory = document.createElement('div');
+    messageHistory.id = 'message-history';
+    messageHistory.className = 'message-history';
 
-// 初期メッセージ（静的に書いていた内容をここへ移動）
-messageHistory.innerHTML = `
-  <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-    --- 2025年11月6日 ---
-  </div>
-
-  <div class="message-item received">
-    <div class="message-content">
-      <span class="message-author" style="color: #FFD699;">中山 遥瑛(専務取締役 CMO)</span>
-      こんにちは
-      <span class="message-time">10:15</span>
-    </div>
-  </div>
-
-  <div class="message-item sent">
-    <div class="message-content">
-     こんにちは
-      <span class="message-time">10:20</span>
-    </div>
-  </div>
-
-  <div class="message-item received">
-    <div class="message-content">
-      <span class="message-author" style="color: #FFD699;">中山 遥瑛(専務取締役 CMO)</span>
-      こんにちは
-      <span class="message-time">10:25</span>
-    </div>
-  </div>
-`;
-
-// chatContent にヘッダーと履歴を挿入（chat-input の前に入れる）
-const chatInputElement = document.querySelector('.chat-input');
-chatContent.appendChild(chatHeaderTitle);
-chatContent.appendChild(messageHistory);
-
-// 3) 既存のDOM要素取得（ルームリスト等）
-const roomItems = document.querySelectorAll('.room-item');
-const sendButton = document.querySelector('.chat-input button');
-const messageTextarea = document.querySelector('.chat-input textarea');
-
-// 今日の日付を取得して MM/DD 形式に整形
-const today = new Date();
-const month = String(today.getMonth() + 1).padStart(2, '0');
-const day = String(today.getDate()).padStart(2, '0');
-const formattedDate = `${month}/${day}`;
-
-// --- 4) ダミーチャットデータ定義（あなたの既存データをそのまま流用） ---
-const chatData = {
-  'nagata': {
-    header: '永田 隆之（社長）',
-    messages: `
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-        --- 2025年11月5日 ---
-      </div>
-      <div class="message-item received">
-            <div class="message-content">
-                <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
-          
-                    黒崎さん、ソレイユ航空へようこそ。
-                <br>歓迎の言葉は、貴方が成果を出してから改めて伝えたいと思います。
-                <br>貴方を副社長として招いた理由は一つ。貴方の持つさくら航空買収を確実に成功させるための手腕、それ以外にありません。
-                <br>感情的な交流は不要です。我々はスピードと結果を求めています。貴方には、このM&Aが完了するまで、一切の私情を排し、最前線で指揮を執ってもらいます。
-                <br>目標は、年内での買収完了です。期待、ではなく、達成を義務付けます。
-                <br>よろしく頼みます。
-          
-                <span class="message-time">9:05</span>
-            </div>
+    // 初期メッセージ（静的に書いていた内容をここへ移動）
+    messageHistory.innerHTML = `
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+            --- 2025年11月6日 ---
         </div>
 
-      <div class="message-item received">
+        <div class="message-item received">
             <div class="message-content">
-                <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
-          
-                    添付したファイルに、ソレイユ航空の今後の成長戦略と、それに紐づくさくら航空買収の意義と計画概要をまとめてある。
-
-                    <br>これは貴方が達成すべき目標の全容だ。一字一句見落としのないよう、徹底的に頭に叩き込んでおきなさい。
-
-                    <br>確認したら、速やかに受領した旨を返信すること。疑問点があれば何でも聞いてくれ。
-
-                    <br><br> 添付資料： growth-strategy-2026.pdf
-                    <br>　　　　　 acquisition-plan.pdf
-          
-                <span class="message-time">9:05</span>
+                <span class="message-author" style="color: #FFD699;">中山 遥瑛(専務取締役 CMO)</span>
+                こんにちは
+                <span class="message-time">10:15</span>
             </div>
         </div>
-
-      <div class="message-item sent">
-            <div class="message-content">
-         
-                        永田社長、資料、受領しました。
-
-                   <br> まず「ソレイユ航空 成長戦略」の資料に目を通しました。
-
-                   <br>貴社が目指す「AIによるコストカットと人為的ミスの完全排除」を実現するうえで、SkylinkというAI航法システムが計画の中核を占めていることは理解できます。
-
-                   <br>このシステムは、貴社の今後の成長戦略、特に買収後の統合効果 (シナジー) を生み出すうえで、どれほどの重要性を持ちますか？もし開発や運用で問題が発生した場合、計画全体に致命的な影響が出ると見てよろしいでしょうか。
-
-                <span class="message-time">9:15</span>
-            </div>
-      </div>
-
-            <div class="message-item received">
-            <div class="message-content">
-                <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
-          
-                            質問の意図がわからん。「戦略の中核」とは、「社の未来」を意味しているのだ。
-
-                        <br>Skylinkはただのシステムではない。AIによる運航で、人件費という最大のコスト要因を削減し、同時にパイロットのヒューマンエラーを根絶する。これは、我々が既存の航空会社と一線を画すための唯一無二の競争優位性だ。
-
-                        <br>我々の成長戦略は、このAI化とコスト効率の上に成り立っている。貴方が心配するような「もし問題が発生した場合」など、断じてあってはならない。もし失敗すれば、我々の買収計画は頓挫し、ソレイユ航空はただの凡庸な二流会社に逆戻りだ。
-
-                        <br>貴方には、この最重要資産の導入が計画通りに進むよう、全力を尽くす義務がある。このシステムの重要性について、これ以上疑問を持つな。
-                                
-                <span class="message-time">9:30</span>
-            </div>
-      </div>
-
-      <div class="message-item sent">
-            <div class="message-content">
-         
-                    承知いたしました。Skylinkがソレイユ航空の将来を決定づける最重要資産であること、深く理解しました。
-
-                    <br>戦略の重要性は理解しましたが、買収計画書については、もう少し時間をいただきたく存じます。
-
-                    <br>貴社の成長戦略と買収対象であるさくら航空の現状を詳細に照合し、リスクを最小限に抑えるための確固たる計画を立てる必要があります。急いで表面的な提案を出すことは、社長が望む「達成」に繋がりません。
-
-                    <br後日改めて、精査に必要な期間をご報告いたします。
-
-                <span class="message-time">9:15</span>
-            </div>
-      </div>
-
-      <div class="message-item sent">
-            <div class="message-content">
-         
-                    買収計画について共有いただいている資料を精査しました。
-                <br>現状の見積もりデータは古いと判断します。最近のさくら航空の財政状況と市場の動きを考慮すると、買収完了のためには、当初想定していたよりも買収資金を増額する必要があると進言します。
-                <br>具体的には、追加で200億円の資金調達が必要と考えています。
-
-                <span class="message-time">9:15</span>
-            </div>
-      </div>
-
-
-      <div class="message-item received">
-            <div class="message-content">
-                <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
-          
-                    黒崎さんの分析は正しい。その見直しは妥当だ。
-                <br>だが、現状はパンデミックの影響で市場の流動性が極端に悪化しており、我々の資金調達計画は大きく狂っている。率直に言えば、現時点で追加資金を捻出する当てはない。
-                <br>買収を遅らせる選択肢は、さくら航空の価値がさらに上昇するリスクを鑑みればありえない。我々には時間がない。
-                <br>資金を増やすのではなく、買収額を下げるか、あるいは間接的にさくら航空の株価を下落させることで、買収を有利に進める方法が必要だ。
-                <br>崎さん、貴方はこの難局を打開するためにヘッドハンティングされた。この状況を覆すアイデアを出してもらおう。
-          
-                <span class="message-time">9:30</span>
-            </div>
-      </div>
 
         <div class="message-item sent">
             <div class="message-content">
-                
-                    状況、理解しました。
-                <br>買収額を下げる、もしくは株価を下落させる。そのいずれも迅速に行うには、オリオン900型機の調達コストにメスを入れるのが最速かつ最も現実的です。
-                <br>アストレオン社、そしてSkylink開発元の東雲ダイナミクスに対し、納品予定機の価格について再交渉を行うべきです。もちろん、これは形式的な交渉ではなく、強い圧力をかけることを意味します。
-                <br>彼らはソレイユ航空との継続的な良好関係を維持したいはずです。特に東雲ダイナミクスはSkylinkの評価を高める機会を逃したくないでしょう。
-                <br>この状況で圧力をかければ、両者は必ず受け入れます。これにより、即座に約80億円の買収資金を調達できると試算しています。
-            
-                 <span class="message-time">9:45</span>
+                こんにちは
+                <span class="message-time">10:20</span>
             </div>
         </div>
 
         <div class="message-item received">
             <div class="message-content">
-                <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
-          
-                        黒崎さん、その提案、採用する。
-
-                    <br>納入価格の再交渉、そして強力な圧力は、現況を打開するための最も現実的な手段だ。80億円の目処がついたことは評価する。
-
-                    <br>ただし、交渉は私が直接行う。
-
-                    <br>アストレオン、東雲ダイナミクス、いずれも国土交通省とのコネクションが重要だ。この手の「圧力」は、私の出自こそが最も効力を発揮する。
-
-                    <br>貴方は引き続き、買収計画の財務面の最終調整に専念しなさい。
-          
-                <span class="message-time">9:30</span>
+                <span class="message-author" style="color: #FFD699;">中山 遥瑛(専務取締役 CMO)</span>
+                こんにちは
+                <span class="message-time">10:25</span>
             </div>
-      </div>
+        </div>
+    `;
 
-            <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-                --- 2025年11月5日 ---
-            </div>
+    // chatContent にヘッダーと履歴を挿入（chat-input の前に入れる）
+    const chatInputElement = document.querySelector('.chat-input');
+    chatContent.appendChild(chatHeaderTitle);
+    chatContent.appendChild(messageHistory);
 
-            <div class="message-item received">
-                <div class="message-content">
-                    <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+    // 3) 既存のDOM要素取得（ルームリスト等）
+    const roomItems = document.querySelectorAll('.room-item');
+    const sendButton = document.querySelector('.chat-input button');
+    const messageTextarea = document.querySelector('.chat-input textarea');
 
-                            黒崎さん、報告だ。
+    // 今日の日付を取得して MM/DD 形式に整形
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const formattedDate = `${month}/${day}`;
 
-                        <br>貴方の進言通りに動いた結果、交渉はうまくいった。
-
-                        <br>アストレオン、東雲ダイナミクス、両社とも我々の要求を受け入れた。特に東雲ダイナミクスは、Skylinkの次世代機への搭載権を確約することで、我々の要求以上のコストカットを呑んだ。
-
-                        <br>これにより、必要な80億円の買収資金が確保できる見込みとなった。貴方の最初の分析と提案は評価に値する。
-
-                        <br>引き続き、買収完了に向けて、財務計画の詰めの作業を怠らないように。
-
-                        <br>以上だ。
-
-          
-                    <span class="message-time">9:30</span>
+    // --- 4) ダミーチャットデータ定義（あなたの既存データをそのまま流用） ---
+    const chatData = {
+        'nagata': {
+            header: '永田 隆之（社長）',
+            messages: `
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                    --- 2025年11月5日 ---
                 </div>
-            </div>
+                <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+                    
+                                黒崎さん、ソレイユ航空へようこそ。
+                            <br>歓迎の言葉は、貴方が成果を出してから改めて伝えたいと思います。
+                            <br>貴方を副社長として招いた理由は一つ。貴方の持つさくら航空買収を確実に成功させるための手腕、それ以外にありません。
+                            <br>感情的な交流は不要です。我々はスピードと結果を求めています。貴方には、このM&Aが完了するまで、一切の私情を排し、最前線で指揮を執ってもらいます。
+                            <br>目標は、年内での買収完了です。期待、ではなく、達成を義務付けます。
+                            <br>よろしく頼みます。
+                    
+                            <span class="message-time">9:05</span>
+                        </div>
+                    </div>
+
+                <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+                    
+                                添付したファイルに、ソレイユ航空の今後の成長戦略と、それに紐づくさくら航空買収の意義と計画概要をまとめてある。
+
+                                <br>これは貴方が達成すべき目標の全容だ。一字一句見落としのないよう、徹底的に頭に叩き込んでおきなさい。
+
+                                <br>確認したら、速やかに受領した旨を返信すること。疑問点があれば何でも聞いてくれ。
+
+                                <br><br> 添付資料： growth-strategy-2026.pdf
+                                <br>　　　　　 acquisition-plan.pdf
+                    
+                            <span class="message-time">9:05</span>
+                        </div>
+                    </div>
+
+                <div class="message-item sent">
+                        <div class="message-content">
+                    
+                                永田社長、資料、受領しました。
+
+                            <br> まず「ソレイユ航空 成長戦略」の資料に目を通しました。
+
+                            <br>貴社が目指す「AIによるコストカットと人為的ミスの完全排除」を実現するうえで、SkylinkというAI航法システムが計画の中核を占めていることは理解できます。
+
+                            <br>このシステムは、貴社の今後の成長戦略、特に買収後の統合効果 (シナジー) を生み出すうえで、どれほどの重要性を持ちますか？もし開発や運用で問題が発生した場合、計画全体に致命的な影響が出ると見てよろしいでしょうか。
+
+                            <span class="message-time">9:15</span>
+                        </div>
+                    </div>
+
+                        <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+                    
+                                    質問の意図がわからん。「戦略の中核」とは、「社の未来」を意味しているのだ。
+
+                                <br>Skylinkはただのシステムではない。AIによる運航で、人件費という最大のコスト要因を削減し、同時にパイロットのヒューマンエラーを根絶する。これは、我々が既存の航空会社と一線を画すための唯一無二の競争優位性だ。
+
+                                <br>我々の成長戦略は、このAI化とコスト効率の上に成り立っている。貴方が心配するような「もし問題が発生した場合」など、断じてあってはならない。もし失敗すれば、我々の買収計画は頓挫し、ソレイユ航空はただの凡庸な二流会社に逆戻りだ。
+
+                                <br>貴方には、この最重要資産の導入が計画通りに進むよう、全力を尽くす義務がある。このシステムの重要性について、これ以上疑問を持つな。
+                                
+                            <span class="message-time">9:30</span>
+                        </div>
+                    </div>
+
+                <div class="message-item sent">
+                        <div class="message-content">
+                    
+                                承知いたしました。Skylinkがソレイユ航空の将来を決定づける最重要資産であること、深く理解しました。
+
+                                <br>戦略の重要性は理解しましたが、買収計画書については、もう少し時間をいただきたく存じます。
+
+                                <br>貴社の成長戦略と買収対象であるさくら航空の現状を詳細に照合し、リスクを最小限に抑えるための確固たる計画を立てる必要があります。急いで表面的な提案を出すことは、社長が望む「達成」に繋がりません。
+
+                                <br>後日改めて、精査に必要な期間をご報告いたします。
+
+                            <span class="message-time">9:15</span>
+                        </div>
+                    </div>
+
+                <div class="message-item sent">
+                        <div class="message-content">
+                    
+                                買収計画について共有いただいている資料を精査しました。
+                            <br>現状の見積もりデータは古いと判断します。最近のさくら航空の財政状況と市場の動きを考慮すると、買収完了のためには、当初想定していたよりも買収資金を増額する必要があると進言します。
+                            <br>具体的には、追加で200億円の資金調達が必要と考えています。
+
+                            <span class="message-time">9:15</span>
+                        </div>
+                    </div>
 
 
-            <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-                --- 2025年11月5日 ---
-            </div>
+                <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+                    
+                                黒崎さんの分析は正しい。その見直しは妥当だ。
+                            <br>だが、現状はパンデミックの影響で市場の流動性が極端に悪化しており、我々の資金調達計画は大きく狂っている。率直に言えば、現時点で追加資金を捻出する当てはない。
+                            <br>買収を遅らせる選択肢は、さくら航空の価値がさらに上昇するリスクを鑑みればありえない。我々には時間がない。
+                            <br>資金を増やすのではなく、買収額を下げるか、あるいは間接的にさくら航空の株価を下落させることで、買収を有利に進める方法が必要だ。
+                            <br>崎さん、貴方はこの難局を打開するためにヘッドハンティングされた。この状況を覆すアイデアを出してもらおう。
+                    
+                            <span class="message-time">9:30</span>
+                        </div>
+                    </div>
 
-        <div class="message-item sent">
-            <div class="message-content">
-                
+                    <div class="message-item sent">
+                        <div class="message-content">
+                            
+                                状況、理解しました。
+                            <br>買収額を下げる、もしくは株価を下落させる。そのいずれも迅速に行うには、オリオン900型機の調達コストにメスを入れるのが最速かつ最も現実的です。
+                            <br>アストレオン社、そしてSkylink開発元の東雲ダイナミクスに対し、納品予定機の価格について再交渉を行うべきです。もちろん、これは形式的な交渉ではなく、強い圧力をかけることを意味します。
+                            <br>彼らはソレイユ航空との継続的な良好関係を維持したいはずです。特に東雲ダイナミクスはSkylinkの評価を高める機会を逃したくないでしょう。
+                            <br>この状況で圧力をかければ、両者は必ず受け入れます。これにより、即座に約80億円の買収資金を調達できると試算しています。
+                        
+                            <span class="message-time">9:45</span>
+                        </div>
+                    </div>
 
-                    永田社長。
+                    <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+                    
+                                    黒崎さん、その提案、採用する。
 
-                    <br>オリオン900型機のアストレオン社工場から東京国際空港までのフェリーフライト計画がまとまりました。詳細な文書は添付をご確認ください。
+                                <br>納入価格の再交渉、そして強力な圧力は、現況を打開するための最も現実的な手段だ。80億円の目処がついたことは評価する。
 
-                    <br>今回のフライトは、機体の新しさ、そしてSkylinkが関わる点から、万全を期す必要があります。
+                                <br>ただし、交渉は私が直接行う。
 
-                    <br>パイロットには、当社の現役パイロットの中でも最も実績があり、冷静沈着な対応力を持つエース級の人材を選定しました。万が一、不測の事態が発生しても、確実に機体を守り抜けると判断しています。
+                                <br>アストレオン、東雲ダイナミクス、いずれも国土交通省とのコネクションが重要だ。この手の「圧力」は、私の出自こそが最も効力を発揮する。
 
-                    <br>添付資料：ferry-flight.pdf
+                                <br>貴方は引き続き、買収計画の財務面の最終調整に専念しなさい。
+                    
+                            <span class="message-time">9:30</span>
+                        </div>
+                    </div>
 
-                 <span class="message-time">9:45</span>
-            </div>
-        </div>
+                        <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                            --- 2025年11月5日 ---
+                        </div>
 
-            <div class="message-item received">
-                <div class="message-content">
-                    <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+                    <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
 
-                        黒崎さん、その件は貴方に一任している。計画に抜かりがないことを前提に進めなさい。
+                                    黒崎さん、報告だ。
 
-                    <br>パイロットがエース級かどうかは、本質ではない。オリオン900型機はSkylinkが完璧に操縦する。我々の理念を理解していれば、それが誰であろうと結果は同じであるはずだ。
+                                <br>貴方の進言通りに動いた結果、交渉はうまくいった。
 
-                    <br>無用な人為的要素は排除されるのだ。
+                                <br>アストレオン、東雲ダイナミクス、両社とも我々の要求を受け入れた。特に東雲ダイナミクスは、Skylinkの次世代機への搭載権を確約することで、我々の要求以上のコストカットを呑んだ。
 
-                    <br>いずれにせよ、貴方が推し進めた計画だ。成功を楽しみにしている。迅速に手続きを進めろ。
+                                <br>これにより、必要な80億円の買収資金が確保できる見込みとなった。貴方の最初の分析と提案は評価に値する。
 
-          
-                    <span class="message-time">9:30</span>
+                                <br>引き続き、買収完了に向けて、財務計画の詰めの作業を怠らないように。
+
+                                <br>以上だ。
+
+                    
+                            <span class="message-time">9:30</span>
+                        </div>
+                    </div>
+
+
+                        <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                            --- 2025年11月5日 ---
+                        </div>
+
+                    <div class="message-item sent">
+                        <div class="message-content">
+                            
+                            永田社長。
+
+                            <br>オリオン900型機のアストレオン社工場から東京国際空港までのフェリーフライト計画がまとまりました。詳細な文書は添付をご確認ください。
+
+                            <br>今回のフライトは、機体の新しさ、そしてSkylinkが関わる点から、万全を期す必要があります。
+
+                            <br>パイロットには、当社の現役パイロットの中でも最も実績があり、冷静沈着な対応力を持つエース級の人材を選定しました。万が一、不測の事態が発生しても、確実に機体を守り抜けると判断しています。
+
+                            <br>添付資料：ferry-flight.pdf
+
+                            <span class="message-time">9:45</span>
+                        </div>
+                    </div>
+
+                    <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+
+                                黒崎さん、その件は貴方に一任している。計画に抜かりがないことを前提に進めなさい。
+
+                            <br>パイロットがエース級かどうかは、本質ではない。オリオン900型機はSkylinkが完璧に操縦する。我々の理念を理解していれば、それが誰であろうと結果は同じであるはずだ。
+
+                            <br>無用な人為的要素は排除されるのだ。
+
+                            <br>いずれにせよ、貴方が推し進めた計画だ。成功を楽しみにしている。迅速に手続きを進めろ。
+
+                    
+                            <span class="message-time">9:30</span>
+                        </div>
+                    </div>
+
+
+                        <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                            --- 2025年11月5日 ---
+                        </div>
+
+                    <div class="message-item sent">
+                        <div class="message-content">
+                            
+                            社長、事故調査の一次報告が出ました。
+
+                            <br>公式発表通り「パイロットの過度な手動介入」で押し通すのは難しいかもしれません。我々の知る通り、真の原因は納品機に搭載されていたAI航法システム、Skylinkの制御暴走にあります。
+
+                            <br>この事実をどこまで、いつ公表するべきか、ご判断を仰ぎたく思います。隠蔽を続ければ、後々大きな問題になる可能性があります。
+
+                            <br>ご指示をお願いします。
+                        
+                            <span class="message-time">9:45</span>
+                        </div>
+                    </div>
+
+                    <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+
+                                    黒崎さん、公表などありえない。隠蔽するのだ。
+
+                                <br>まず、貴方が懸念する「後々大きな問題」とは、国土交通省を敵に回すことだ。我々航空会社が、認可権限を持つ国交省の意向を無視できると思うか？
+
+                                <br>真の原因がSkylinkであることは、国交省にとって致命的だ。彼らはSkylinkに認可を与え、開発にも公的資金を投じている。原因を公表すれば、国交省が糾弾される。だからこそ、彼らから我々に対し、既に口止めと、原因をパイロットに帰属させるよう強い圧力がかかっている。
+
+                                <br>公の批判は全て国交省に向けられるべきではない。貴方は、どちら側につくべきか理解しているはずだ。
+
+                                <br>幸い、パイロットは亡くなっている。まさに「死人に口なし」だ。これで我々も国交省も丸く収まる。
+
+                                <br>それに、Skylinkが原因だと公表すれば、AIと効率化を掲げた我々の成長戦略の根幹が崩壊する。パイロットのミスで片づけるよりも、株価は遥かに深く、深刻に下落するだろう。
+
+                                <br>メディア対応ガイドラインを徹底させ、公式見解から逸脱した情報が一切出ないように厳しく監視しなさい。
+
+                    
+                            <span class="message-time">9:30</span>
+                        </div>
+                    </div>
+
+                    <div class="message-item received">
+                        <div class="message-content">
+                            <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
+
+                                    重要機密文書はこのポータルから消去し、別の場所に移しておいた。
+                                <br>家にある英雄の中だ。捨てられた蛾の画像を使え。
+
+                    
+                            <span class="message-time">9:30</span>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+            `
+        },
+        'sato': {
+            header: '中山 遥瑛(専務取締役 CMO)',
+            messages: messageHistory.innerHTML // 初期表示を一貫して使用
+        },
+
+
+        'all': {
+            header: '全社員向け：全体通知',
+            messages: `
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                    --- 2025年11月1日 ---
                 </div>
-            </div>
-
-
-             <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-                --- 2025年11月5日 ---
-            </div>
-
-        <div class="message-item sent">
-            <div class="message-content">
-                
-                社長、事故調査の一次報告が出ました。
-
-                <br>公式発表通り「パイロットの過度な手動介入」で押し通すのは難しいかもしれません。我々の知る通り、真の原因は納品機に搭載されていたAI航法システム、Skylinkの制御暴走にあります。
-
-                <br>この事実をどこまで、いつ公表するべきか、ご判断を仰ぎたく思います。隠蔽を続ければ、後々大きな問題になる可能性があります。
-
-                <br>ご指示をお願いします。
-            
-                 <span class="message-time">9:45</span>
-            </div>
-        </div>
-
-            <div class="message-item received">
-                <div class="message-content">
-                    <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
-
-                            黒崎さん、公表などありえない。隠蔽するのだ。
-
-                        <br>まず、貴方が懸念する「後々大きな問題」とは、国土交通省を敵に回すことだ。我々航空会社が、認可権限を持つ国交省の意向を無視できると思うか？
-
-                        <br>真の原因がSkylinkであることは、国交省にとって致命的だ。彼らはSkylinkに認可を与え、開発にも公的資金を投じている。原因を公表すれば、国交省が糾弾される。だからこそ、彼らから我々に対し、既に口止めと、原因をパイロットに帰属させるよう強い圧力がかかっている。
-
-                        <br>公の批判は全て国交省に向けられるべきではない。貴方は、どちら側につくべきか理解しているはずだ。
-
-                        <br>幸い、パイロットは亡くなっている。まさに「死人に口なし」だ。これで我々も国交省も丸く収まる。
-
-                        <br>それに、Skylinkが原因だと公表すれば、AIと効率化を掲げた我々の成長戦略の根幹が崩壊する。パイロットのミスで片づけるよりも、株価は遥かに深く、深刻に下落するだろう。
-
-                        <br>メディア対応ガイドラインを徹底させ、公式見解から逸脱した情報が一切出ないように厳しく監視しなさい。
-
-          
-                    <span class="message-time">9:30</span>
+                <div class="message-item received">
+                    <div class="message-content">
+                        <span class="message-author" style="color: #FFD699;">システム部 - 自動通知</span>
+                        【重要】${formattedDate}, 0:00~24:00の間、過去の掲示版のメンテナンスを実施します。（重要な情報のみ閲覧可能です。）
+                        <span class="message-time">1:45</span>
+                    </div>
                 </div>
-            </div>
+            `
+        },
 
-            <div class="message-item received">
-                <div class="message-content">
-                    <span class="message-author" style="color: #FFD699;">永田 隆之（社長）</span>
 
-                            重要機密文書はこのポータルから消去し、別の場所に移しておいた。
-                        <br>家にある英雄の中だ。捨てられた蛾の画像を使え。
 
-          
-                    <span class="message-time">9:30</span>
+        'ca': {
+            header: '客室乗務員 (CA) 部門',
+            messages: `
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                    --- 2025年11月6日 ---
                 </div>
-            </div>
+                <div class="message-item received">
+                    <div class="message-content">
+                        <span class="message-author" style="color: #FFD699;">山本（チーフCA）</span>
+                        オリオン900の便に搭乗予定だった客室乗務員はしばらくの間、別の便に合流していただきます。詳細については追ってお伝えしますので、しばらくお待ちください。
+                        <span class="message-time">14:00</span>
+                    </div>
+                </div>
+            `
+        },
+        'pilot': {
+            header: 'パイロット部門',
+            messages: `
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                    --- 2025年11月4日 ---
+                </div>
+                <div class="message-item received">
+                    <div class="message-content">
+                        <span class="message-author" style="color: #FFD699;">田中（運航課長）</span>
+                        オリオン900の事故を受け、安全運航講習が実施されます。全員参加必須ですので、よろしくお願いいたします。
+                        <span class="message-time">17:30</span>
+                    </div>
+                </div>
+            `
+        },
+        'tech': {
+            header: '整備・技術部門',
+            messages: `
+                <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
+                    --- 2025年11月3日 ---
+                </div>
+                <div class="message-item received">
+                    <div class="message-content">
+                        <span class="message-author" style="color: #FFD699;">鈴木（技術監督）</span>
+                        オリオン900の調査報告書によると、ご存じの通りSkylinkに問題はありませんでした。整備マニュアルに変更はございません。
+                        <span class="message-time">11:10</span>
+                    </div>
+                </div>
+            `
+        }
+    };
+
+    // --- 4. 初期表示（永田社長チャット） ---
+    window.addEventListener('DOMContentLoaded', () => {
+        const defaultRoomId = 'nagata'; // ✅ 永田社長を初期表示
+        const defaultRoom = chatData[defaultRoomId];
+        const defaultRoomElement = document.querySelector(`[data-room-id="${defaultRoomId}"]`);
+
+        if (defaultRoom && defaultRoomElement) {
+            // アクティブ状態を設定
+            document.querySelector('.room-item.active')?.classList.remove('active');
+            defaultRoomElement.classList.add('active');
+
+            // ヘッダーとメッセージ履歴を動的生成
+            chatHeaderTitle.textContent = defaultRoom.header;
+            messageHistory.innerHTML = defaultRoom.messages;
+            messageHistory.scrollTop = messageHistory.scrollHeight;
+
+            // 入力欄のプレースホルダー設定
+            messageTextarea.placeholder = `${defaultRoom.header} へメッセージを入力`;
+        }
+    });
 
 
+    // --- 8) モバイルでのルームリスト表示切り替え機能 ---
+    const toggleButton = document.getElementById('toggle-room-list');
+    const roomList = document.querySelector('.room-list');
+    const chatLayout = document.querySelector('.chat-layout');
 
+    if (toggleButton && roomList && chatLayout) {
+        toggleButton.addEventListener('click', function() {
+            // chat-layout にクラスをトグルして、CSSで room-list の表示を制御
+            const isVisible = chatLayout.classList.toggle('room-list-visible');
 
-
-
-
-
-
-    `
-  },
-  'sato': {
-    header: '中山 遥瑛(専務取締役 CMO)',
-    messages: messageHistory.innerHTML // 初期表示を一貫して使用
-  },
-
-
-  'all': {
-    header: '全社員向け：全体通知',
-    messages: `
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-        --- 2025年11月1日 ---
-      </div>
-      <div class="message-item received">
-        <div class="message-content">
-          <span class="message-author" style="color: #FFD699;">システム部 - 自動通知</span>
-          【重要】${formattedDate}, 0:00~24:00の間、過去の掲示版のメンテナンスを実施します。（重要な情報のみ閲覧可能です。）
-          <span class="message-time">1:45</span>
-        </div>
-      </div>
-    `
-  },
-
-
-
-  'ca': {
-    header: '客室乗務員 (CA) 部門',
-    messages: `
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-        --- 2025年11月6日 ---
-      </div>
-      <div class="message-item received">
-        <div class="message-content">
-          <span class="message-author" style="color: #FFD699;">山本（チーフCA）</span>
-          オリオン900の便に搭乗予定だった客室乗務員はしばらくの間、別の便に合流していただきます。詳細については追ってお伝えしますので、しばらくお待ちください。
-          <span class="message-time">14:00</span>
-        </div>
-      </div>
-    `
-  },
-  'pilot': {
-    header: 'パイロット部門',
-    messages: `
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-        --- 2025年11月4日 ---
-      </div>
-      <div class="message-item received">
-        <div class="message-content">
-          <span class="message-author" style="color: #FFD699;">田中（運航課長）</span>
-          オリオン900の事故を受け、安全運航講習が実施されます。全員参加必須ですので、よろしくお願いいたします。
-          <span class="message-time">17:30</span>
-        </div>
-      </div>
-    `
-  },
-  'tech': {
-    header: '整備・技術部門',
-    messages: `
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.8em; margin: 15px 0;">
-        --- 2025年11月3日 ---
-      </div>
-      <div class="message-item received">
-        <div class="message-content">
-          <span class="message-author" style="color: #FFD699;">鈴木（技術監督）</span>
-          オリオン900の調査報告書によると、ご存じの通りSkylinkに問題はありませんでした。整備マニュアルに変更はございません。
-          <span class="message-time">11:10</span>
-        </div>
-      </div>
-    `
-  }
-};
-
-// --- 4. 初期表示（永田社長チャット） ---
-window.addEventListener('DOMContentLoaded', () => {
-    const defaultRoomId = 'nagata'; // ✅ 永田社長を初期表示
-    const defaultRoom = chatData[defaultRoomId];
-    const defaultRoomElement = document.querySelector(`[data-room-id="${defaultRoomId}"]`);
-
-    if (defaultRoom && defaultRoomElement) {
-        // アクティブ状態を設定
-        document.querySelector('.room-item.active')?.classList.remove('active');
-        defaultRoomElement.classList.add('active');
-
-        // ヘッダーとメッセージ履歴を動的生成
-        chatHeaderTitle.textContent = defaultRoom.header;
-        messageHistory.innerHTML = defaultRoom.messages;
-        messageHistory.scrollTop = messageHistory.scrollHeight;
-
-        // 入力欄のプレースホルダー設定
-        messageTextarea.placeholder = `${defaultRoom.header} へメッセージを入力`;
+            // ボタンのテキストを切り替え
+            if (isVisible) {
+                toggleButton.textContent = 'チャットに戻る';
+            } else {
+                toggleButton.textContent = 'ルームリストを表示';
+            }
+        });
     }
-});
 
-// 5) ルーム切替の処理
-roomItems.forEach(item => {
-  item.addEventListener('click', function(e) {
-    e.preventDefault();
-    const roomId = this.getAttribute('data-room-id');
-    const roomName = this.getAttribute('data-room-name');
-    const data = chatData[roomId];
+    // 5) ルーム切替の処理
+    roomItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const roomId = this.getAttribute('data-room-id');
+            const roomName = this.getAttribute('data-room-name');
+            const data = chatData[roomId];
 
-    if (data) {
-      // アクティブクラスの切替（存在する時のみ）
-      const prevActive = document.querySelector('.room-item.active');
-      if (prevActive) prevActive.classList.remove('active');
-      this.classList.add('active');
+            if (data) {
+                // アクティブクラスの切替（存在する時のみ）
+                const prevActive = document.querySelector('.room-item.active');
+                if (prevActive) prevActive.classList.remove('active');
+                this.classList.add('active');
 
-      // ヘッダーと履歴の更新
-      chatHeaderTitle.textContent = roomName;
-      messageHistory.innerHTML = data.messages;
+                // ヘッダーと履歴の更新
+                chatHeaderTitle.textContent = roomName;
+                messageHistory.innerHTML = data.messages;
 
-      // 最下部へスクロール
-      messageHistory.scrollTop = messageHistory.scrollHeight;
+                // 最下部へスクロール
+                messageHistory.scrollTop = messageHistory.scrollHeight;
 
-      // プレースホルダーの更新
-      const ta = document.querySelector('.chat-input textarea');
-      if (ta) ta.placeholder = `${roomName} へメッセージを入力`;
-    }
-  });
-});
+                // プレースホルダーの更新
+                const ta = document.querySelector('.chat-input textarea');
+                if (ta) ta.placeholder = `${roomName} へメッセージを入力`;
 
-// 6) 送信ボタン（現在はエラーメッセージ表示のダミー処理）
-sendButton.addEventListener('click', function(event) {
-  event.preventDefault();
+                // ✅ 【追加/修正】モバイルの場合、リストを非表示に戻し、ボタンテキストを更新
+                if (window.innerWidth <= 768) {
+                    // 変数を改めて取得（グローバル変数化していない場合に対応）
+                    const chatLayout = document.querySelector('.chat-layout');
+                    const toggleButton = document.getElementById('toggle-room-list');
 
-  if (messageTextarea.value.trim() !== '') {
-    // サーバ送信無しのダミー挙動：エラーメッセージを一時表示
-    errorDiv.style.display = 'block';
-    messageTextarea.value = '';
+                    if (chatLayout && toggleButton) {
+                        chatLayout.classList.remove('room-list-visible');
+                        toggleButton.textContent = 'ルームリストを表示';
+                    }
+                }
+            }
+        });
+    });
 
-    setTimeout(() => {
-      errorDiv.style.display = 'none';
-    }, 4000);
-  }
-});
 
-// 7) 初期の最下部スクロール（ページ読み込み時）
-messageHistory.scrollTop = messageHistory.scrollHeight;
+
+    // 6) 送信ボタン（現在はエラーメッセージ表示のダミー処理）
+    sendButton.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        if (messageTextarea.value.trim() !== '') {
+            // サーバ送信無しのダミー挙動：エラーメッセージを一時表示
+            errorDiv.style.display = 'block';
+            messageTextarea.value = '';
+
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 4000);
+        }
+    });
+
+    // 7) 初期の最下部スクロール（ページ読み込み時）
+    messageHistory.scrollTop = messageHistory.scrollHeight;
 
 </script>
 
 </body>
-</html>
 </html>
