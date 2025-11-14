@@ -526,6 +526,10 @@
                 width: 90%;
               }
 
+              .network-error{
+                margin-top: 80px;
+              }
+
           }
     </style>
 </head>
@@ -543,7 +547,14 @@
     </header>
 
     <div class="container">
+                <div id="error-message" class="network-error">
+
+                    社内ネットワークに接続してください
+                </div>
+
         <div class="chat-layout">
+
+
 
             <aside class="room-list">
 
@@ -579,12 +590,6 @@
             </aside>
 
             <main class="chat-area">
-
-                <div id="error-message" class="network-error">
-
-                    社内ネットワークに接続してください
-                </div>
-
                 <div id="chat-content"></div>
 
 
