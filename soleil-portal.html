@@ -76,6 +76,8 @@ a:hover {
     font-size: 0.9em;
     font-weight: 500;
     margin-left: 30px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
     padding: 0 5px 5px;
     border-bottom: 3px solid transparent;
 }
@@ -223,26 +225,34 @@ a:hover {
         padding-top: 0; 
     }
     .header h1 { 
-        margin-bottom: 10px; 
         font-size: 1.2em; 
+        margin: 10px auto;
     }
-    .nav { 
-        display: flex; 
-        flex-direction: row; /* ✅ 横並びに戻す */
-        width: 100%; /* フル幅を維持 */
-        justify-content: center; /* リンクを中央に集める */
-        text-align: center; 
-        padding-bottom: 5px; /* パディングを少し減らす */
-        flex-wrap: wrap; /* 横に並びきらない場合を考慮 */
-    }
-    .nav a { 
-        margin: 0 10px; /* ✅ 左右のマージンに変更 */
-        padding: 5px 0; 
-        border-bottom: none; 
-        border-top: none; /* ✅ 縦積み用のボーダーを削除 */
-        font-size: 0.8em; 
-        white-space: nowrap; /* 折り返さない */
-    }
+            .nav {
+                display: flex;
+                flex-direction: row;
+                /* ✅ 横並びに戻す */
+                width: 100%;
+                /* フル幅を維持 */
+                justify-content: center;
+                /* リンクを中央に集める */
+                text-align: center;
+                padding-bottom: 5px;
+                /* パディングを少し減らす */
+                flex-wrap: wrap;
+            }
+
+            .nav a {
+                margin: 0 10px;
+                /* ✅ 左右のマージンに変更 */
+                padding: 5px 0;
+                border-bottom: none;
+                border-top: none;
+                /* ✅ 縦積み用のボーダーを削除 */
+                font-size: 1rem;
+                white-space: nowrap;
+                /* 折り返さない */
+            }
     .nav a:first-child { 
         border-top: none; 
     }

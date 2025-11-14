@@ -442,7 +442,7 @@
                 border-bottom: none;
                 border-top: none;
                 /* ✅ 縦積み用のボーダーを削除 */
-                font-size: 0.8em;
+                font-size: 1rem;
                 white-space: nowrap;
                 /* 折り返さない */
             }
@@ -451,9 +451,11 @@
                 border-top: none;
             }
             .container {
-                height: 100vh;
+                height: calc(100vh - 140px);
                 padding: 0 10px 10px;
             }
+
+
 
             /* 2. チャットレイアウトの調整 */
             /* ✅ 【追加】ルームリスト切り替えボタンのスタイル */
@@ -511,15 +513,20 @@
 
             /* ✅ 【変更】チャットエリアは常にフル幅 */
             .chat-area {
-                flex-grow: 1;
-                width: 100%;
+               flex-grow: 1;
+               width: 100%;
+               height: 400px;
             }
 
             .message-content {
-                width: 250px;
+              width: 250px;
             }
 
-        }
+              .chat-input textarea {
+                width: 90%;
+              }
+
+          }
     </style>
 </head>
 <body>
@@ -581,12 +588,16 @@
                 <div id="chat-content"></div>
 
 
+
+
             </main>
 
             <div class="chat-input">
                 <textarea placeholder="永田社長へメッセージを入力"></textarea>
                 <button>送信</button>
             </div>
+
+
         </div>
     </div>
 
